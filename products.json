@@ -1,1 +1,92 @@
-[]
+[
+  {
+    "title": "Product 1",
+    "description": "Description for Product 1",
+    "price": 10.99,
+    "thumbnail": "thumbnail1.jpg",
+    "code": "P1",
+    "stock": 100,
+    "id": 1
+  },
+  {
+    "title": "Product 2",
+    "description": "Description for Product 2",
+    "price": 21.98,
+    "thumbnail": "thumbnail2.jpg",
+    "code": "P2",
+    "stock": 100,
+    "id": 2
+  },
+  {
+    "title": "Product 3",
+    "description": "Description for Product 3",
+    "price": 32.97,
+    "thumbnail": "thumbnail3.jpg",
+    "code": "P3",
+    "stock": 100,
+    "id": 3
+  },
+  {
+    "title": "Product 4",
+    "description": "Description for Product 4",
+    "price": 43.96,
+    "thumbnail": "thumbnail4.jpg",
+    "code": "P4",
+    "stock": 100,
+    "id": 4
+  },
+  {
+    "title": "Product 5",
+    "description": "Description for Product 5",
+    "price": 54.95,
+    "thumbnail": "thumbnail5.jpg",
+    "code": "P5",
+    "stock": 100,
+    "id": 5
+  },
+  {
+    "title": "Product 6",
+    "description": "Description for Product 6",
+    "price": 65.94,
+    "thumbnail": "thumbnail6.jpg",
+    "code": "P6",
+    "stock": 100,
+    "id": 6
+  },
+  {
+    "title": "Product 7",
+    "description": "Description for Product 7",
+    "price": 76.93,
+    "thumbnail": "thumbnail7.jpg",
+    "code": "P7",
+    "stock": 100,
+    "id": 7
+  },
+  {
+    "title": "Product 8",
+    "description": "Description for Product 8",
+    "price": 87.92,
+    "thumbnail": "thumbnail8.jpg",
+    "code": "P8",
+    "stock": 100,
+    "id": 8
+  },
+  {
+    "title": "Product 9",
+    "description": "Description for Product 9",
+    "price": 98.91,
+    "thumbnail": "thumbnail9.jpg",
+    "code": "P9",
+    "stock": 100,
+    "id": 9
+  },
+  {
+    "title": "Product 10",
+    "description": "Description for Product 10",
+    "price": 109.9,
+    "thumbnail": "thumbnail10.jpg",
+    "code": "P10",
+    "stock": 100,
+    "id": 10
+  }
+]

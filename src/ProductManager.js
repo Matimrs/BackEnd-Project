@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 export class ProductManager {
     constructor(filePath) {
@@ -92,29 +92,3 @@ export class ProductManager {
     }
 }
 
-
-// Test:
-
-const productManager = new ProductManager('./products.json');
-
-console.log('Productos después de crear la instancia:', productManager.getProducts()); // []
-
-productManager.addProduct({
-    title: 'producto prueba',
-    description: 'Este es un producto prueba',
-    price: 200,
-    thumbnail: 'Sin imagen',
-    code: 'abc123',
-    stock: 25
-});
-
-console.log('Productos después de agregar un producto:', productManager.getProducts());
-
-const productId = productManager.getProducts()[0].id; // Tomar el id del primer producto agregado
-console.log('Producto con id', productId, ':', productManager.getProductById(productId));
-
-productManager.updateProduct(productId, { price: 250 }); // Actualizar el precio del producto
-console.log('Productos después de actualizar un producto:', productManager.getProducts());
-
-productManager.deleteProduct(productId); // Eliminar el producto
-console.log('Productos después de eliminar un producto:', productManager.getProducts());
