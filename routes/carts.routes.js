@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { CartManager } from "../src/CartManager";
+import { CartManager } from "../src/CartManager.js";
 
 const cartsRouter = Router();
 
-const cartManager = new CartManager("../carritos.json");
+const cartManager = new CartManager('./carritos.json');
 
 cartsRouter.post('/', (req, res) => {
     try {

@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { ProductManager } from "../src/ProductManager";
-
-const productManager = new ProductManager('../productos.json');
+import { ProductManager } from "../src/ProductManager.js";
 
 const productsRouter = Router();
+
+const productManager = new ProductManager('./productos.json');
 
 productsRouter.get('/', (req, res) => {
     try {
@@ -36,15 +36,18 @@ productsRouter.get('/:pid', (req, res) => {
     }
   });
 
-productsRouter.post('/', (req, res) => {
-    try{
-        const { product } = req.body;
-        productManager.addProduct(product);
-        res.send({message: 'Product added'})
-    }
-    catch(error){
-        res.status(500).send({ error: 'Internal server error'});
-    }
+
+productsRouter.post('/',(req, res) => {
+        const product = req.body;
+        res.send(product);
+        //const status = productManager.addProduct(product);
+       /* if(status === -2){
+          res.status(400).send({message: 'Existing product'});
+        }
+        else if(status === -1){
+          res.status(400).send({message: 'All fields are required'});
+        }*/
+        
 });
 
 productsRouter.put('/:pid', (req, res) => {

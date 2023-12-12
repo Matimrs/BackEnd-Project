@@ -4,8 +4,8 @@ export class CartManager {
 
     constructor(filePath){
         this.path = filePath;
-        this.id = this.calculateNextId();
         this.carts = [];
+        this.id = this.calculateNextId();
     }
 
     calculateNextId() {
@@ -14,6 +14,16 @@ export class CartManager {
         }
         const maxId = Math.max(...this.carts.map(c => c.id));
         return maxId + 1;
+    }
+
+    loadCarts() {
+        try {
+            const data = fs.readFileSync(this.path, 'utf-8');
+            return JSON.parse(data);
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
     }
 
     getCarts() {
@@ -68,5 +78,4 @@ export class CartManager {
         } );
         this.saveCarts();
     }
-    
-}
+};

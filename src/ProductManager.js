@@ -17,7 +17,7 @@ export class ProductManager {
 
     loadProducts() {
         try {
-            const data = fs.promises.readFileSync(this.path, 'utf-8');
+            const data = fs.readFileSync(this.path, 'utf-8');
             return JSON.parse(data);
         } catch (error) {
             console.error(error);
@@ -35,14 +35,14 @@ export class ProductManager {
 
         if (this.products.some(p => p.code === product.code)) {
             console.log('Ya existe un producto con ese codigo');
-            return;
+            return -2;
         }
-
+/*
         if (!product.title || !product.description || !product.code || !product.price || !product.stock || !product.category) {
             console.log('Todos los campos son obligatorios');
-            return;
+            return -1;
         }
-
+*/
         const newProduct = { ...product, available: true, id: this.calculateNextId() };
 
         this.products.push(newProduct);
