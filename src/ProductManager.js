@@ -17,9 +17,10 @@ export class ProductManager {
 
     loadProducts() {
         try {
-            const data = fs.readFileSync(this.path, 'utf-8');
+            const data = fs.promises.readFileSync(this.path, 'utf-8');
             return JSON.parse(data);
         } catch (error) {
+            console.error(error);
             return [];
         }
     }
@@ -37,12 +38,12 @@ export class ProductManager {
             return;
         }
 
-        if (!product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock) {
+        if (!product.title || !product.description || !product.code || !product.price || !product.stock || !product.category) {
             console.log('Todos los campos son obligatorios');
             return;
         }
 
-        const newProduct = { ...product, id: this.id++ };
+        const newProduct = { ...product, available: true, id: this.calculateNextId() };
 
         this.products.push(newProduct);
 
