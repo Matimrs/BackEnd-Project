@@ -37,12 +37,10 @@ export class ProductManager {
             console.log('Ya existe un producto con ese codigo');
             return -2;
         }
-/*
         if (!product.title || !product.description || !product.code || !product.price || !product.stock || !product.category) {
             console.log('Todos los campos son obligatorios');
             return -1;
         }
-*/
         const newProduct = { ...product, available: true, id: this.calculateNextId() };
 
         this.products.push(newProduct);
@@ -55,33 +53,35 @@ export class ProductManager {
     }
 
     getProductById(id) {
-        const product = this.products.find(p => p.id === id);
 
+        const product = this.products.find(p => p.id === +id);
+        
         if (!product) {
             console.log('No se encontró el producto');
-            return;
+            return [];
         }
-
-        return product;
+        const index = this.products.indexOf(product);
+        return [product, index];
     }
 
     updateProduct(id, updatedProduct) {
-        
-        let product = this.getProductById(id);
 
-        if(product){
+        const res = this.getProductById(+id);
+        
+        if(res.length > 0){
+            let product = res[0];
+            const index = res[1];
             for(const key in updatedProduct) {
                     product[key] = updatedProduct[key];            
             };
-
-            product.id = id;
-            this.saveProducts(product);
+            this.products.splice(index, 1, product);
+            this.saveProducts();
         }
         
     }
 
     deleteProduct(id) {
-        const index = this.products.findIndex(p => p.id === id);
+        const index = this.products.findIndex(p => p.id === +id);
 
         if (index === -1) {
             console.log('No se encontró el producto');

@@ -26,7 +26,7 @@ cartsRouter.get('/:cid', (req,res) => {
         if(!cart){
             res.status(404).send({error: 'Cart not found'});
         }
-        res.send(cart);
+        res.send(cart.products);
     } catch (error) {
         res.status(500).send({error: 'Internal server error'});
     }
@@ -34,7 +34,8 @@ cartsRouter.get('/:cid', (req,res) => {
 
 cartsRouter.post('/:cid/product/:pid',(req,res) => {
     const {cid, pid} = req.params;
-
+    cartManager.addProductToCart(+cid,+pid);
+    res.send({message: 'Product added'});
 });
 
 export default cartsRouter;

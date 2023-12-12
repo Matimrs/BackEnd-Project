@@ -1,6 +1,12 @@
 [
   {
+    "title": "todo bien",
+    "description": "modificado",
+    "code": "ffff4",
+    "price": 4000,
+    "stock": 600,
+    "category": "Electronic",
     "available": true,
-    "id": 1
+    "id": 6
   }
 ]

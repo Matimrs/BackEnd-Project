@@ -4,7 +4,7 @@ export class CartManager {
 
     constructor(filePath){
         this.path = filePath;
-        this.carts = [];
+        this.carts = this.loadCarts();
         this.id = this.calculateNextId();
     }
 
@@ -37,14 +37,9 @@ export class CartManager {
     }
 
     addCart(){
-        try {
             this.carts.push({ id: this.calculateNextId(), products: []});
             this.saveCarts();
             return true;
-        } catch (error) {
-            console.error(error);
-            return false;
-        }
         
     }
     saveCarts() {

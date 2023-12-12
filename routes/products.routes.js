@@ -5,6 +5,11 @@ const productsRouter = Router();
 
 const productManager = new ProductManager('./productos.json');
 
+productsRouter.use((req, res, next) => {
+  console.log('Request Body:', req.body);
+  next();
+});
+
 productsRouter.get('/', (req, res) => {
     try {
       const { limit } = req.query;
@@ -20,10 +25,10 @@ productsRouter.get('/', (req, res) => {
     }
   });
   
-productsRouter.get('/:pid', (req, res) => {
+productsRouter.get('/:pid', async (req, res) => {
     try {
       const { pid } = req.params;
-      const products = productManager.getProducts();
+      const products = await productManager.getProducts();
       const product = products.find(p => p.id === +pid);
   
       if (product) {
@@ -37,28 +42,27 @@ productsRouter.get('/:pid', (req, res) => {
   });
 
 
-productsRouter.post('/',(req, res) => {
+productsRouter.post('/', async (req, res) => {
         const product = req.body;
-        res.send(product);
-        //const status = productManager.addProduct(product);
-       /* if(status === -2){
+        const status = await productManager.addProduct(product);
+        if(status === -2){
           res.status(400).send({message: 'Existing product'});
         }
         else if(status === -1){
           res.status(400).send({message: 'All fields are required'});
-        }*/
-        
+        }
+        res.send(product);
 });
 
 productsRouter.put('/:pid', (req, res) => {
     try{
         const { pid } = req.params;
-        const { product } = req.body;
+        const product = req.body;
         const products = productManager.getProducts();
         const currentProduct = products.find(p => p.id === +pid);
 
         if(currentProduct){
-            productManager.updateProduct(pid, product);
+            productManager.updateProduct(+pid, product);
             res.send({message: 'Product updated'});
         }
         else{
