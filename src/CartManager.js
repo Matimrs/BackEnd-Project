@@ -28,7 +28,7 @@ export class CartManager {
 
     getCarts() {
         try {
-            const data = fs.promises.readFileSync(this.path, 'utf-8');
+            const data = fs.readFileSync(this.path, 'utf-8');
             return JSON.parse(data);
         } catch (error) {
             console.error(error);
@@ -59,9 +59,9 @@ export class CartManager {
     }
 
     addProductToCart(cid, pid){
-        const cart = this.carts.map(c =>{
-            if(c.id === cid){
-                const product = c.find(p => p.id === +pid);
+        const carts = this.carts.map(c =>{
+            if(c.id === +cid){
+                const product = c.products.find(p => p.id === +pid);
                 if(!product){
                     c.products = [...c.products, {product: pid, quantity: 1}];
                 }
@@ -69,8 +69,9 @@ export class CartManager {
                     product.quantity++;
                 }
             }
-            return cart;
-        } );
+            return c;
+        });
+        this.carts = carts;
         this.saveCarts();
     }
 };

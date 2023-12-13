@@ -5,6 +5,15 @@ const cartsRouter = Router();
 
 const cartManager = new CartManager('./carritos.json');
 
+cartsRouter.get('/', (req,res)=>{
+    try {
+        const carts = cartManager.getCarts();
+        res.send(carts);
+    } catch (error) {
+        res.status(500).send({error: 'Internal server error'});
+    }
+});
+
 cartsRouter.post('/', (req, res) => {
     try {
         const status = cartManager.addCart();
@@ -33,9 +42,14 @@ cartsRouter.get('/:cid', (req,res) => {
 });
 
 cartsRouter.post('/:cid/product/:pid',(req,res) => {
-    const {cid, pid} = req.params;
-    cartManager.addProductToCart(+cid,+pid);
-    res.send({message: 'Product added'});
+    try {
+        const {cid, pid} = req.params;
+        cartManager.addProductToCart(+cid,+pid);
+        res.send({message: 'Product added'});
+    } catch (error) {
+        res.status(500).send({message: 'Internal server error'});
+    }
+    
 });
 
 export default cartsRouter;
