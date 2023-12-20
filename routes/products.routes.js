@@ -5,10 +5,6 @@ const productsRouter = Router();
 
 const productManager = new ProductManager('./productos.json');
 
-productsRouter.use((req, res, next) => {
-  console.log('Request Body:', req.body);
-  next();
-});
 
 productsRouter.get('/', (req, res) => {
     try {
