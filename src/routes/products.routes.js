@@ -1,22 +1,23 @@
 import { Router } from "express";
 import { ProductManager } from "../dao/ProductManager.js";
+import { productModel } from "../dao/models/product.model.js";
 
 const productsRouter = Router();
 
 const productManager = new ProductManager('./productos.json');
 
 
-productsRouter.get('/', (req, res) => {
+productsRouter.get('/', async (req, res) => {
     try {
       const { limit } = req.query;
-      const products = productManager.getProducts();
-  
+      const products = await productModel.find();
       if (limit) {
         res.send(products.slice(0, +limit));
       } else {
         res.send(products);
       }
     } catch (error) {
+      console.error(error);
       res.status(500).send({ error: 'Internal server error' });
     }
   });
@@ -24,10 +25,8 @@ productsRouter.get('/', (req, res) => {
 productsRouter.get('/:pid', async (req, res) => {
     try {
       const { pid } = req.params;
-      const products = await productManager.getProducts();
-      const product = products.find(p => p.id === +pid);
-  
-      if (product) {
+      const product = await productModel.findOne({_id: pid});
+      if (!!product) {
         res.send(product);
       } else {
         res.status(404).send({ error: 'Product not found' });
@@ -39,53 +38,58 @@ productsRouter.get('/:pid', async (req, res) => {
 
 
 productsRouter.post('/', async (req, res) => {
-        const product = req.body;
-        const status = await productManager.addProduct(product);
-        if(status === -2){
-          res.status(400).send({message: 'Existing product'});
+        try {
+          const product = req.body;
+          try {
+            const existing = await productModel.findOne({code: product.code});
+            if(!!existing){
+              return res.status(400).send({message: 'The product already exists'})
+            }
+            await productModel.create({...product, available: true});
+            res.send({message: 'Product added'});
+          } catch (error) {
+            console.error(error);
+            res.status(400).send({error: 'All fields are required'});
+          }
+          }
+        catch (error) {
+          console.error(error);
+          res.status(500).send({ error: 'Internal server error' })
         }
-        else if(status === -1){
-          res.status(400).send({message: 'All fields are required'});
-        }
-        res.send(product);
 });
 
-productsRouter.put('/:pid', (req, res) => {
+productsRouter.put('/:pid', async (req, res) => {
     try{
         const { pid } = req.params;
         const product = req.body;
-        const products = productManager.getProducts();
-        const currentProduct = products.find(p => p.id === +pid);
-
-        if(currentProduct){
-            productManager.updateProduct(+pid, product);
-            res.send({message: 'Product updated'});
-        }
-        else{
-            res.status(404).send({error: 'Product not found'});
+        try {
+          await productModel.findOneAndUpdate({_id: pid}, product);
+          res.send({message: 'Product updated'})
+        } catch (error) {
+          console.error(error);
+          res.status(400).send({error: 'Product not found'});
         }
     }
     catch(error){
-        res.status(500).send({error: 'Internal server error'});
+      console.error(error);
+      res.status(500).send({error: 'Internal server error'});
     }
 });
 
-productsRouter.delete('/:pid', (req, res) => {
+productsRouter.delete('/:pid', async (req, res) => {
     try{
         const { pid } = req.params;
-        const products = productManager.getProducts();
-        const currentProduct = products.find(p => p.id === +pid);
-
-        if(currentProduct){
-            productManager.deleteProduct(pid);
-            res.send({message: 'Product deleted'})
-        }
-        else{
-            res.status(404).send({error: 'Product not found'});
+        try {
+          await productModel.findOneAndDelete({_id: pid});
+          res.send({message: 'Product deleted'})
+        } catch (error) {
+          console.error(error);
+          res.status(404).send({error: 'Product not found'});
         }
     }
     catch(error){
-        res.status(500).send({error: 'Internal server error'});
+      console.error(error);
+      res.status(500).send({error: 'Internal server error'});
     }
 });
 

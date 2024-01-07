@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import handlebars from "express-handlebars";
 import { ProductManager } from "./dao/ProductManager.js";
 import mongoose from "mongoose";
+import { productModel } from "./dao/models/product.model.js";
 
 const PORT = 8080;
 const app = express();
@@ -27,8 +28,8 @@ app.use('/api/products',productsRouter);
 app.use('/api/carts',cartsRouter);
 mongoose.connect('mongodb+srv://matimoralestepp:ecommerceMoralesMatias@ecommerce.89vsykd.mongodb.net/ecommerce');
 
-io.on('connection', socket => {
-  let products = productManager.getProducts();
+io.on('connection',async  (socket) => {
+  let products = await productModel.find();
   socket.emit('products', {products});
   
   socket.on('createProduct', (producto) => {
