@@ -3,7 +3,7 @@ import productsRouter from "./routes/products.routes.js";
 import cartsRouter from "./routes/carts.routes.js";
 import { Server } from "socket.io";
 import handlebars from "express-handlebars";
-import { ProductManager } from "./ProductManager.js";
+import { ProductManager } from "./dao/ProductManager.js";
 
 const PORT = 8080;
 const app = express();

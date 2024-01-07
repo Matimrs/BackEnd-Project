@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { CartManager } from "../CartManager.js";
+import { CartManager } from "../dao/CartManager.js";
 
 const cartsRouter = Router();
 
 const cartManager = new CartManager('./carritos.json');
 
-cartsRouter.get('/', (req,res)=>{
+cartsRouter.get('/', async (req,res)=>{
     try {
         const carts = cartManager.getCarts();
         res.send(carts);
