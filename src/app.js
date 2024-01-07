@@ -4,6 +4,7 @@ import cartsRouter from "./routes/carts.routes.js";
 import { Server } from "socket.io";
 import handlebars from "express-handlebars";
 import { ProductManager } from "./dao/ProductManager.js";
+import mongoose from "mongoose";
 
 const PORT = 8080;
 const app = express();
@@ -17,6 +18,14 @@ app.engine('handlebars',handlebars.engine());
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+
+app.set('views','src/views');
+app.set('view engine','handlebars');
+
+app.use('/api/products',productsRouter);
+app.use('/api/carts',cartsRouter);
+mongoose.connect('mongodb+srv://matimoralestepp:ecommerceMoralesMatias@ecommerce.89vsykd.mongodb.net/ecommerce');
 
 io.on('connection', socket => {
   let products = productManager.getProducts();
@@ -34,13 +43,6 @@ io.on('connection', socket => {
     socket.emit('products', {products});
   });
 });
-
-
-app.set('views','src/views');
-app.set('view engine','handlebars');
-
-app.use('/api/products',productsRouter);
-app.use('/api/carts',cartsRouter);
 
 
 app.get('/',(req, res)=>{
