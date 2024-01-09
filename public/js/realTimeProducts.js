@@ -32,7 +32,7 @@ socket.on('products',({products})=>{
     divProducts.innerHTML = "<div id='divProducts'></div>";
     products.forEach(e => {
         const product = document.createElement("div");
-        product.innerHTML = "<div><h4>" + e.title + ":</h4><p>Price: $" + e.price+ "</p><p>Stock: " + e.stock+ "</p><p>ID: " + e.id+ "</p></div>";
+        product.innerHTML = "<div><h4>" + e.title + ":</h4><p>Price: $" + e.price+ "</p><p>Stock: " + e.stock+ "</p><p>ID: " + e._id+ "</p></div>";
         divProducts.appendChild(product);
     });
 });
