@@ -9,16 +9,38 @@ const productManager = new ProductManager('./productos.json');
 
 productsRouter.get('/', async (req, res) => {
     try {
-      const { limit } = req.query;
-      const products = await productModel.find();
-      if (limit) {
-        res.send(products.slice(0, +limit));
-      } else {
-        res.send(products);
-      }
+
+      const { limit, page, sort, query } = req.query;
+
+      const _limit = limit? +limit : 10;
+
+      const _page = page? +page : 1;
+
+      const _sort = sort? +sort : 0;
+
+      const _query = query? query : null;
+
+      const products = await productModel.aggregate([
+          {
+            $sort: { price: _sort }
+          }
+      ]).paginate({
+        category: _query
+      },
+      {
+        limit: _limit,
+        page: _page
+      })
+      
+      res.send(products);
+      
     } catch (error) {
+     
       console.error(error);
+     
+     
       res.status(500).send({ error: 'Internal server error' });
+
     }
   });
   
