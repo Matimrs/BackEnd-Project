@@ -3,7 +3,6 @@ import productsRouter from "./routes/products.routes.js";
 import cartsRouter from "./routes/carts.routes.js";
 import { Server } from "socket.io";
 import handlebars from "express-handlebars";
-import { ProductManager } from "./dao/ProductManager.js";
 import mongoose from "mongoose";
 import { productModel } from "./dao/models/product.model.js";
 import { messageModel } from "./dao/models/message.model.js";

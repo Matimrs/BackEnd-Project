@@ -4,21 +4,98 @@ import { productModel } from "../dao/models/product.model.js";
 
 const productsRouter = Router();
 
-const productManager = new ProductManager('./productos.json');
-
 
 productsRouter.get('/', async (req, res) => {
     try {
-      const { limit } = req.query;
-      const products = await productModel.find();
-      if (limit) {
-        res.send(products.slice(0, +limit));
-      } else {
-        res.send(products);
+
+      const { limit, page, sort, query } = req.query;
+
+      const _limit = limit? +limit : 10;
+
+      const _page = page? +page : 1;
+
+      let products;
+      
+      if(sort){
+
+        if(query){
+
+          products = await productModel.aggregatePaginate(productModel.aggregate([
+            {
+              $match: {
+                category: query
+              }
+            },
+            {
+              $sort: {price: +sort}
+            }
+          ]),{limit: _limit, page: _page} );
+
+        }
+        else{
+
+          products = await productModel.aggregatePaginate(productModel.aggregate([
+            {
+              $sort: {price: +sort}
+            }
+          ]),{limit: _limit, page: _page} );
+
+        }
       }
+      else{
+
+        if(query){
+
+          products = await productModel.aggregatePaginate(productModel.aggregate([
+            {
+              $match: {
+                category: query
+              }
+            }
+          ]),{limit: _limit, page: _page} );
+
+        }
+        else{
+
+          products = await productModel.aggregatePaginate(productModel.aggregate([]),{limit: _limit, page: _page} );
+
+        }
+
+      }
+
+      products.payload = products.docs;
+
+      delete products.docs;
+
+      if(!products){
+      
+        products = {status: 'error'};
+
+        return res.status(400).send({message: 'Products not found'});
+
+      }
+
+      products.status = 'success';
+
+      const linkLimit = limit? `&limit=${_limit}` : '';
+
+      const linkSort = sort? `&sort=${sort}` : '';
+
+      const linkQuery = query? `&query=${query}` : '';
+
+      products.nextLink = products.hasNextPage? `/products?page=${_page + 1}${linkLimit + linkQuery + linkSort}` : null;
+
+      products.prevLink = products.hasPrevPage? `/products?page=${_page - 1}${linkLimit + linkQuery + linkSort}` : null;
+
+      res.send(products);
+      
     } catch (error) {
+     
       console.error(error);
+     
+     
       res.status(500).send({ error: 'Internal server error' });
+
     }
   });
   
