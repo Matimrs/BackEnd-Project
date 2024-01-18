@@ -16,22 +16,37 @@ productsRouter.get('/', async (req, res) => {
 
       const _page = page? +page : 1;
 
-      const _sort = sort? +sort : 0;
-
-      const _query = query? query : null;
-
-      const products = await productModel.aggregate([
-          {
-            $sort: { price: _sort }
-          }
-      ]).paginate({
-        category: _query
-      },
-      {
-        limit: _limit,
-        page: _page
-      })
+      let products
       
+      if(sort){
+
+        if(query){
+
+          products = await productModel.aggregate([
+            {
+              $match: {
+                category: query
+              }
+            },
+            {
+              $sort: {price: +sort}
+            }
+          ])
+
+        }
+        else{
+
+          products = await productModel.aggregate([
+            {
+              $sort: {price: +sort}
+            }
+          ])
+
+        }
+      }
+      
+      products = products.pagination({},{limit: _limit, page: _page});
+
       res.send(products);
       
     } catch (error) {
