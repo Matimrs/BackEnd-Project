@@ -4,8 +4,6 @@ import { productModel } from "../dao/models/product.model.js";
 
 const productsRouter = Router();
 
-const productManager = new ProductManager('./productos.json');
-
 
 productsRouter.get('/', async (req, res) => {
     try {
@@ -16,13 +14,13 @@ productsRouter.get('/', async (req, res) => {
 
       const _page = page? +page : 1;
 
-      let products
+      let products;
       
       if(sort){
 
         if(query){
 
-          products = await productModel.aggregate([
+          products = await productModel.aggregatePaginate(productModel.aggregate([
             {
               $match: {
                 category: query
@@ -31,21 +29,63 @@ productsRouter.get('/', async (req, res) => {
             {
               $sort: {price: +sort}
             }
-          ])
+          ]),{limit: _limit, page: _page} );
 
         }
         else{
 
-          products = await productModel.aggregate([
+          products = await productModel.aggregatePaginate(productModel.aggregate([
             {
               $sort: {price: +sort}
             }
-          ])
+          ]),{limit: _limit, page: _page} );
 
         }
       }
+      else{
+
+        if(query){
+
+          products = await productModel.aggregatePaginate(productModel.aggregate([
+            {
+              $match: {
+                category: query
+              }
+            }
+          ]),{limit: _limit, page: _page} );
+
+        }
+        else{
+
+          products = await productModel.aggregatePaginate(productModel.aggregate([]),{limit: _limit, page: _page} );
+
+        }
+
+      }
+
+      products.payload = products.docs;
+
+      delete products.docs;
+
+      if(!products){
       
-      products = products.pagination({},{limit: _limit, page: _page});
+        products = {status: 'error'};
+
+        return res.status(400).send({message: 'Products not found'});
+
+      }
+
+      products.status = 'success';
+
+      const linkLimit = limit? `&limit=${_limit}` : '';
+
+      const linkSort = sort? `&sort=${sort}` : '';
+
+      const linkQuery = query? `&query=${query}` : '';
+
+      products.nextLink = products.hasNextPage? `/products?page=${_page + 1}${linkLimit + linkQuery + linkSort}` : null;
+
+      products.prevLink = products.hasPrevPage? `/products?page=${_page - 1}${linkLimit + linkQuery + linkSort}` : null;
 
       res.send(products);
       
