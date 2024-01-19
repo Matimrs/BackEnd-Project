@@ -14,12 +14,19 @@ const httpServer = app.listen(PORT, () => {console.log(`Esperando entrada en pue
 const io = new Server(httpServer);
 
 app.use(express.static('public'));
-app.engine('handlebars',handlebars.engine());
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 
+const hbs = handlebars.create({
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true
+  }
+})
+
+app.engine('handlebars',hbs.engine);
 app.set('views','src/views');
 app.set('view engine','handlebars');
 
@@ -100,19 +107,15 @@ app.get('/carts/:cid', async (req, res) => {
 app.get('/products', async (req, res) => {
   try {
 
-    const { page, limit } = req.query;
+    const { page } = req.query;
 
     const _page = page? +page : 1;
 
-    const _limit = limit? +limit : 10;
-
-    const products = (await productModel.aggregatePaginate({},{ limit: _limit, page: _page })).docs;
+    const products = await productModel.aggregatePaginate(productModel.aggregate(),{ page: _page });
 
     if(!products) return res.status(400).send({ message: 'Products not found' });
 
-    console.log(products);
-
-    res.render('products', { products });
+    res.render('products', products );
 
   } catch (error) {
     

@@ -1,16 +1,20 @@
 <div>
-    {{#each products}}
+    {{#each docs}}
         <div>
-            <h2>{{this.product.title}}:</h2>
-            <h4>Quantity: {{this.quantity}}</h4>
-            <p>Price: ${{this.product.price}}</p>
-            <p>Category: {{this.product.category}}</p>
-            <button id="addToCart">Add to Cart</button>
+            <h2>{{this.title}}:</h2>
+            <p>Price: ${{this.price}}</p>
+            <p>Category: {{this.category}}</p>
+            <button id={{this._id}} class="addToCart">Add to Cart</button>
         </div>
     {{/each}}
+    
     <div>
-        <button></button>
-        <button></button>
+        {{#if hasPrevPage}}
+            <button><a href="products?page={{prevPage}}">Previous page</a></button>
+        {{/if}}
+        {{#if hasNextPage}}
+            <button ><a href="products?page={{nextPage}}">Next page</a></button>
+        {{/if}}
     </div>
 </div>
 
