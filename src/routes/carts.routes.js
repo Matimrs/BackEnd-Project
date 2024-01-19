@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { CartManager } from "../dao/CartManager.js";
-import { cartModel } from "../dao/models/cart.model.js";
+import { cartModel } from "../models/cart.model.js";
 import mongoose from 'mongoose';
 import { validateProducts } from "../middlewares/validateProducts.js";
 
@@ -45,7 +44,7 @@ cartsRouter.get('/:cid', async (req,res) => {
         
         const { cid } = req.params;
         
-        const cart = await cartModel.findOne({_id: cid});
+        const cart = await cartModel.findOne({_id: cid}).populate('products.product');
         
         if(!cart){
         
@@ -74,8 +73,6 @@ cartsRouter.post('/:cid/product/:pid', async (req,res) => {
         
         const products = cart.products.map((p) =>
         {
-        
-            console.log(p.product);
         
             if(p.product.equals(_pid)) {
         
@@ -205,7 +202,7 @@ cartsRouter.put('/:cid', validateProducts ,async (req, res) => {
 
         cart.save();
 
-
+        res.send({ message: 'Products modified success' });
 
     } catch (error) {
         

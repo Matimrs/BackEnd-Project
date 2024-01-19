@@ -1,0 +1,17 @@
+<div>
+    {{#each products}}
+        <div>
+            <h2>{{this.product.title}}:</h2>
+            <h4>Quantity: {{this.quantity}}</h4>
+            <p>Price: ${{this.product.price}}</p>
+            <p>Category: {{this.product.category}}</p>
+            <button id="addToCart">Add to Cart</button>
+        </div>
+    {{/each}}
+    <div>
+        <button></button>
+        <button></button>
+    </div>
+</div>
+
+<script src="js/products.js"></script>

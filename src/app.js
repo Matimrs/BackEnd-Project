@@ -4,8 +4,9 @@ import cartsRouter from "./routes/carts.routes.js";
 import { Server } from "socket.io";
 import handlebars from "express-handlebars";
 import mongoose from "mongoose";
-import { productModel } from "./dao/models/product.model.js";
-import { messageModel } from "./dao/models/message.model.js";
+import { productModel } from "./models/product.model.js";
+import { messageModel } from "./models/message.model.js";
+import { cartModel } from "./models/cart.model.js";
 
 const PORT = 8080;
 const app = express();
@@ -63,10 +64,62 @@ app.get('/', async (req, res)=>{
 });
 
 app.get('/realtimeproducts',(req,res)=>{
+
   res.render('realTimeProducts');
+
 });
 
 app.get('/chat', (req,res)=>{
+
   res.render('chat');
+
+});
+
+app.get('/carts/:cid', async (req, res) => {
+  try {
+  
+    const { cid } = req.params;
+
+    const cart = await cartModel.findById(cid).populate('products.product').lean();
+
+    if(!cart) return res.status(404).send({message: 'Cart not found'});
+
+    const products = cart.products;
+
+    res.render('cart',{ products });
+    
+  } catch (error) {
+    
+    console.error(error);
+
+    res.status(500).send(error);
+
+  }
+});
+
+app.get('/products', async (req, res) => {
+  try {
+
+    const { page, limit } = req.query;
+
+    const _page = page? +page : 1;
+
+    const _limit = limit? +limit : 10;
+
+    const products = (await productModel.aggregatePaginate({},{ limit: _limit, page: _page })).docs;
+
+    if(!products) return res.status(400).send({ message: 'Products not found' });
+
+    console.log(products);
+
+    res.render('products', { products });
+
+  } catch (error) {
+    
+    console.error(error);
+
+    res.status(500).send(error);
+
+  }
 });
 
