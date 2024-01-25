@@ -28,7 +28,7 @@ app.use(session({
     ttl: 1 * 60 * 60
   }),
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: false
 }));
 
 
