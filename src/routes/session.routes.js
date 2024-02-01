@@ -12,6 +12,7 @@ sessionRouter.post(
   passport.authenticate("register", { failureRedirect: "/failRegister" }),
   async (req, res) => {
     try {
+      req.session.user = req.user;
       res.redirect("/");
     } catch (error) {
       console.error(error);
@@ -26,6 +27,7 @@ sessionRouter.post(
   passport.authenticate("login", { failureRedirect: "/failLogin" }),
   async (req, res) => {
     try {
+      req.session.user = req.user;
       res.redirect("/");
     } catch (error) {
       console.error(error);
@@ -47,5 +49,20 @@ sessionRouter.post("/logout", async (req, res) => {
     res.status(400).send({ error });
   }
 });
+
+sessionRouter.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user: email"] }),
+  (req, res) => {}
+);
+
+sessionRouter.get(
+  "/githubcallback",
+  passport.authenticate("github", { failureRedirect: "/failLogin" }),
+  (req, res) => {
+    req.session.user = req.user;
+    res.redirect("/");
+  }
+);
 
 export default sessionRouter;
