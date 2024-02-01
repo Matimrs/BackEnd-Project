@@ -10,6 +10,8 @@ import { viewsRouter } from "./routes/views.routes.js";
 import sessionRouter from "./routes/session.routes.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import { initializePassport } from "./config/passport.config.js";
+import passport from "passport";
 
 const PORT = 8080;
 const app = express();
@@ -30,6 +32,10 @@ app.use(session({
   resave: true,
   saveUninitialized: false
 }));
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 const hbs = handlebars.create({

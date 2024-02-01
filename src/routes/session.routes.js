@@ -1,51 +1,39 @@
 import { Router } from "express";
 import { userModel } from "../models/user.model.js";
 import { validateRegister } from "../middlewares/validateUser.js";
+import { hashing, passwordValidation } from "../utils/crypt.js";
+import passport from "passport";
 
 const sessionRouter = Router();
 
-sessionRouter.post("/register", validateRegister, async (req, res) => {
-  const { first_name, last_name, email, age, password } = req.body;
-  try {
-    const user = await userModel.findOne({ email: email });
-    if (user) return res.status(400).send({ message: "User not added" });
-    const result = await userModel.create({
-      first_name,
-      last_name,
-      email,
-      age: +age,
-      password,
-    });
+sessionRouter.post(
+  "/register",
+  validateRegister,
+  passport.authenticate("register", { failureRedirect: "/failRegister" }),
+  async (req, res) => {
+    try {
+      res.redirect("/");
+    } catch (error) {
+      console.error(error);
 
-    req.session.user = result;
-
-    res.redirect('/');
-  } catch (error) {
-    console.error(error);
-
-    res.status(400).send(error);
+      res.status(400).send(error);
+    }
   }
-});
+);
 
-sessionRouter.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const user = await userModel.findOne({ email: email });
+sessionRouter.post(
+  "/login",
+  passport.authenticate("login", { failureRedirect: "/failLogin" }),
+  async (req, res) => {
+    try {
+      res.redirect("/");
+    } catch (error) {
+      console.error(error);
 
-    if (!user) return res.status(404).send({ error: "User not found" });
-
-    if (password !== user.password)
-      return res.status(400).send({ error: "Invalids credentials" });
-
-    req.session.user = user;
-
-    res.redirect("/");
-  } catch (error) {
-    console.error(error);
-
-    res.status(400).send({ error });
+      res.status(400).send({ error });
+    }
   }
-});
+);
 
 sessionRouter.post("/logout", async (req, res) => {
   try {

@@ -5,24 +5,42 @@ import { existingUser, isAuth } from "../middlewares/auth.js";
 
 export const viewsRouter = Router();
 
-viewsRouter.get("/", isAuth , async (req, res) => {
+viewsRouter.get("/", isAuth, async (req, res) => {
   const { user } = req.session;
   const products = await productModel.find().lean();
   res.render("home", { products, user });
 });
 
-viewsRouter.get('/register', existingUser, (req, res) => {
+viewsRouter.get("/register", existingUser, (req, res) => {
   try {
-    res.render('register');
+    res.render("register");
   } catch (error) {
     console.error(error);
     res.status(400).send(error);
   }
 });
 
-viewsRouter.get('/login', existingUser, (req, res) => {
+viewsRouter.get("/failRegister", (req, res) => {
   try {
-    res.render('login');
+    res.render("failRegister");
+  } catch (error) {
+    console.error(error);
+    res.status(400).send(error);
+  }
+});
+
+viewsRouter.get("/login", existingUser, (req, res) => {
+  try {
+    res.render("login");
+  } catch (error) {
+    console.error(error);
+    res.status(400).send(error);
+  }
+});
+
+viewsRouter.get("/failLogin", (req, res) => {
+  try {
+    res.render("failLogin");
   } catch (error) {
     console.error(error);
     res.status(400).send(error);
@@ -79,5 +97,3 @@ viewsRouter.get("/products", async (req, res) => {
     res.status(500).send(error);
   }
 });
-
-
