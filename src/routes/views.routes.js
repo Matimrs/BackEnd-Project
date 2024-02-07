@@ -88,7 +88,7 @@ viewsRouter.get("/products", async (req, res) => {
     );
 
     if (!products)
-      return res.status(400).send({ message: "Products not found" });
+      return res.status(404).send({ message: "Products not found" });
 
     res.render("products", products);
   } catch (error) {

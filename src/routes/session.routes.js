@@ -13,7 +13,7 @@ sessionRouter.post(
   async (req, res) => {
     try {
       req.session.user = req.user;
-      res.redirect("/");
+      res.status(300).redirect("/");
     } catch (error) {
       console.error(error);
 
@@ -28,7 +28,7 @@ sessionRouter.post(
   async (req, res) => {
     try {
       req.session.user = req.user;
-      res.redirect("/");
+      res.status(300).redirect("/");
     } catch (error) {
       console.error(error);
 
@@ -61,7 +61,7 @@ sessionRouter.get(
   passport.authenticate("github", { failureRedirect: "/failLogin" }),
   (req, res) => {
     req.session.user = req.user;
-    res.redirect("/");
+    res.status(300).redirect("/");
   }
 );
 
