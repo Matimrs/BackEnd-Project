@@ -1,6 +1,8 @@
 import passport from "passport";
+import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
 import local from "passport-local";
 import { userModel } from "../models/user.model.js";
+import { cartModel } from "../models/cart.model.js";
 import { hashing, passwordValidation } from "../utils/crypt.js";
 import { Strategy as GitHubStrategy } from "passport-github2";
 
@@ -26,12 +28,19 @@ export const initializePassport = () => {
 
           if (!hashedPassword) return done("Error saving password", false);
 
+          const cart = await cartModel.create({ products: [] });
+
+          if (!cart) {
+            return done("Error creating cart", false);
+          }
+
           const result = await userModel.create({
             first_name,
             last_name,
             email,
             age: +age,
             password: hashedPassword,
+            cart: cart._id,
           });
 
           return done(null, result);
@@ -66,7 +75,6 @@ export const initializePassport = () => {
             console.log("Invalid credentials");
             return done(null, false);
           }
-          console.log(user);
 
           return done(null, user);
         } catch (error) {
@@ -89,6 +97,12 @@ export const initializePassport = () => {
             email: profile._json.email ?? profile.username,
           });
 
+          const cart = await cartModel.create({ products: [] });
+
+          if (!cart) {
+            return done("Error creating cart", false);
+          }
+
           if (!user) {
             const newUser = {
               first_name: profile._json.name.split(" ")[0],
@@ -96,6 +110,7 @@ export const initializePassport = () => {
               age: 18,
               email: profile._json.email ?? profile.username,
               password: "GitHub.Generated",
+              cart: cart._id,
             };
             const result = await userModel.create(newUser);
 
@@ -105,6 +120,27 @@ export const initializePassport = () => {
           return done(null, user);
         } catch (error) {
           done(error);
+        }
+      }
+    )
+  );
+  passport.use(
+    new JWTStrategy(
+      {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: "m4t14s",
+      },
+      async (payload, done) => {
+        try {
+          const user = await userModel.findById(payload.id);
+
+          if (!user) {
+            return done(null, false);
+          }
+
+          return done(null, user);
+        } catch (error) {
+          return done(error, false);
         }
       }
     )

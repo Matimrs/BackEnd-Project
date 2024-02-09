@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { SchemaType } from "mongoose";
 
 const userCollection = "users";
 
@@ -10,8 +10,7 @@ const userSchema = new Schema({
     required: true
   },
   last_name: {
-    type: String,
-    required: true
+    type: String
   },
   email: {
     type: String,
@@ -26,6 +25,14 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  cart:{
+    type: Schema.Types.ObjectId,
+    ref: 'carts'
+  },
+  role:{
+    type: String,
+    default: 'user'
+  }
 });
 
 export const userModel = mongoose.model(userCollection, userSchema);

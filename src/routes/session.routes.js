@@ -3,6 +3,7 @@ import { userModel } from "../models/user.model.js";
 import { validateRegister } from "../middlewares/validateUser.js";
 import { hashing, passwordValidation } from "../utils/crypt.js";
 import passport from "passport";
+import { generateToken } from "../config/jwt.config.js";
 
 const sessionRouter = Router();
 
@@ -27,7 +28,7 @@ sessionRouter.post(
   passport.authenticate("login", { failureRedirect: "/failLogin" }),
   async (req, res) => {
     try {
-      req.session.user = req.user;
+      const token = generateToken(user);
       res.status(300).redirect("/");
     } catch (error) {
       console.error(error);
