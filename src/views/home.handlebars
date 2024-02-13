@@ -1,0 +1,22 @@
+<div>
+  <div>
+    <h3>Welcome!</h3>
+    <button id="logout" type="button"> Logout</button>
+    <button id="seeCart" type="button">See cart</button>
+  </div>
+  <p>First Name: {{user.first_name}}</p>
+  <p>Last Name: {{user.last_name}}</p>
+  <p>Email/Username: {{user.email}}</p>
+  <p>Age: {{user.age}}</p>
+</div>
+
+<h2>Products:</h2>
+{{#each products}}
+<div>
+  <h3>{{this.title}}:</h3>
+  <p>Price {{this.price}}</p>
+  <p>Stock {{this.stock}}</p>
+</div>
+{{/each}}
+
+<script src="js/home.js"></script>

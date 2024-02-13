@@ -1,0 +1,23 @@
+<div id="divCreate">
+  <h3>Agregar nuevo producto</h3>
+  <input type="text" id="title" placeholder="Producto">
+  <input type="text" id="description" placeholder="Descripcion">
+  <input type="text" id="code" placeholder="Codigo">
+  <input type="number" id="price" placeholder="Precio">
+  <input type="number" id="stock" placeholder="Stock">
+  <input type="text" id="category" placeholder="Categoria">
+  <button type="submit" id="buttonCreate">Crear Producto</button>
+</div>
+
+<div id="divProducts">
+
+</div>
+
+<div id="divDelete">
+  <h3>Eliminar producto por ID</h3>
+  <input type="number" id="id" placeholder="ID">
+  <button id="buttonDelete">Eliminar Producto</button>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/realTimeProducts.js"></script>
