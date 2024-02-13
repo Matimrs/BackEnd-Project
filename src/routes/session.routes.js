@@ -70,7 +70,6 @@ sessionRouter.post("/logout", async (req, res) => {
   }
 });
 
-
 sessionRouter.get(
   "/github",
   passport.authenticate("github", { scope: ["user: email"] }),

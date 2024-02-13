@@ -12,7 +12,10 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import { initializePassport } from "./config/passport.config.js";
 import passport from "passport";
+<<<<<<< HEAD
 import cookieParser from "cookie-parser";
+=======
+>>>>>>> 04939e3b36d369fc724bb396220dbe182fcf118e
 
 const PORT = 8080;
 const app = express();
@@ -24,7 +27,11 @@ app.use(express.static('public'));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+<<<<<<< HEAD
 /*app.use(session({
+=======
+app.use(session({
+>>>>>>> 04939e3b36d369fc724bb396220dbe182fcf118e
   secret: 'matute',
   store: MongoStore.create({
     mongoUrl: 'mongodb+srv://matimoralestepp:ecommerceMoralesMatias@ecommerce.89vsykd.mongodb.net/ecommerce',
@@ -33,12 +40,20 @@ app.use(express.urlencoded({extended: true}));
   resave: true,
   saveUninitialized: false
 }));
+<<<<<<< HEAD
 */
 
 initializePassport();
 app.use(passport.initialize());
 //app.use(passport.session());
 app.use(cookieParser());
+=======
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
+>>>>>>> 04939e3b36d369fc724bb396220dbe182fcf118e
 
 const hbs = handlebars.create({
   runtimeOptions: {
