@@ -1,5 +1,3 @@
-import mongoose from 'mongoose';
-
 export const validateProducts = (req, res, next) => {
 
     const { products } = req.body;

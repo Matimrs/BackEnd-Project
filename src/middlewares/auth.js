@@ -1,9 +1,9 @@
-import jwt from "jsonwebtoken";
-import { COOKIE_TOKEN, TOKEN_SECRET } from "../utils/consts.js";
+import config from "../config/config.js"
 
 export const existingUser = (req, res, next) => {
   try {
-    const token = req.cookies[COOKIE_TOKEN];
+    //.env
+    const token = req.cookies[config.cookieToken];
 
     if (token) {
       return res.redirect("/");

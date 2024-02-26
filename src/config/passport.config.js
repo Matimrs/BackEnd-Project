@@ -5,8 +5,9 @@ import { userModel } from "../models/user.model.js";
 import { cartModel } from "../models/cart.model.js";
 import { hashing, passwordValidation } from "../utils/crypt.js";
 import { Strategy as GitHubStrategy } from "passport-github2";
-import { COOKIE_TOKEN, TOKEN_SECRET } from "../utils/consts.js";
-import { verifyToken } from "./jwt.config.js";
+import config from "./config.js";
+
+const COOKIE_TOKEN = config.cookieToken;
 
 const LocalStrategy = local.Strategy;
 
@@ -15,7 +16,7 @@ export const initializePassport = () => {
     let token = null;
     try {
       if (req && req.cookies) {
-        token = req.cookies[COOKIE_TOKEN];
+        token = req.cookies[COOKIE_TOKEN]; 
       }
     } catch (error) {
       console.error(error);
@@ -100,9 +101,9 @@ export const initializePassport = () => {
     "github",
     new GitHubStrategy(
       {
-        clientID: "Iv1.ae9b7572ccabcfce",
-        clientSecret: "888e9693318b60c1ef29e245e908861829b814eb",
-        callbackURL: "http://localhost:8080/api/session/githubcallback",
+        clientID: config.clientIDGitHub,
+        clientSecret: config.clientSecretGitHub,
+        callbackURL: config.callbackURLGitHub,
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -119,10 +120,10 @@ export const initializePassport = () => {
           if (!OldUser) {
             const newUser = {
               first_name: profile._json.name.split(" ")[0],
-              last_name: profile._json.name.split(" ")[1] ?? "Github last_name",
+              last_name: profile._json.name.split(" ")[1] ?? config.lastNameGitHub, 
               age: 18,
               email: profile._json.email ?? profile.username,
-              password: "GitHub.Generated",
+              password: config.passwordGitHub,
               cart: cart._id,
             };
             const user = await userModel.create(newUser);
@@ -142,7 +143,7 @@ export const initializePassport = () => {
     new JWTStrategy(
       {
         jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-        secretOrKey: TOKEN_SECRET,
+        secretOrKey: config.tokenSecret,
       },
       async (payload, done) => {
         try {
@@ -158,7 +159,8 @@ export const initializePassport = () => {
     new JWTStrategy(
       {
         jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-        secretOrKey: TOKEN_SECRET,
+        //.env
+        secretOrKey: config.tokenSecret,
       },
       async (payload, done) => {
         try {
