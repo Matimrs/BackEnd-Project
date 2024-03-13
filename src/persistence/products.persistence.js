@@ -27,3 +27,4 @@ return await productModel.findOneAndUpdate(filter, updates);
 export const deleteOneProduct = async (filter) => {
     return await productModel.findOneAndDelete(filter);
 }
+

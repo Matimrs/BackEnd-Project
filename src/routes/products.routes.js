@@ -6,6 +6,8 @@ import {
   postProduct,
   putProduct,
 } from "../controllers/products.controller.js";
+import passport from "passport";
+import { authorization } from "../middlewares/auth.js";
 
 const productsRouter = Router();
 
@@ -13,10 +15,25 @@ productsRouter.get("/", getProducts);
 
 productsRouter.get("/:pid", getProduct);
 
-productsRouter.post("/", postProduct);
+productsRouter.post(
+  "/",
+  passport.authenticate("current", { session: false }),
+  authorization("admin"),
+  postProduct
+);
 
-productsRouter.put("/:pid", putProduct);
+productsRouter.put(
+  "/:pid",
+  passport.authenticate("current", { session: false }),
+  authorization("admin"),
+  putProduct
+);
 
-productsRouter.delete("/:pid", deleteProduct);
+productsRouter.delete(
+  "/:pid",
+  passport.authenticate("current", { session: false }),
+  authorization("admin"),
+  deleteProduct
+);
 
 export default productsRouter;

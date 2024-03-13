@@ -1,7 +1,7 @@
 import config from "../config/config.js";
 import { generateToken } from "../config/jwt.config.js";
 
-const COOKIE_TOKEN = config.cookieToken
+const COOKIE_TOKEN = config.cookieToken;
 
 export const postRegister = async (req, res) => {
   try {
@@ -59,9 +59,25 @@ export const getGitHubCallBack = (req, res) => {
 
 export const getCurrent = (req, res) => {
   try {
-    res.send(req.user);
+    const user = {
+      name: `${req.user.first_name} ${req.user.last_name}`,
+      email: req.user.email,
+      role: req.user.role,
+    };
+    res.send(user);
   } catch (error) {
     console.error(error);
     res.status(401).send({ error: "User not found" });
+  }
+};
+
+export const getCurrentCart = async (req, res) => {
+  try {
+    const cid = req.user.cart;
+
+    res.send(cid);
+  } catch (error) {
+    console.error(error);
+    res.send({ error: error });
   }
 };

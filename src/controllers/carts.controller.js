@@ -6,6 +6,8 @@ import {
   getCartsService,
   updateOneCartService,
 } from "../services/carts.service.js";
+import { findProductByIdService } from "../services/products.service.js";
+import { ticketModel } from "../models/ticket.model.js";
 
 export const getCarts = async (req, res) => {
   try {
@@ -177,5 +179,55 @@ export const putCart = async (req, res) => {
     console.error(error);
 
     res.status(500).send(error);
+  }
+};
+
+export const postPurchase = async (req, res) => {
+  try {
+    const { cid } = req.params;
+
+    const cart = await getCartService(cid);
+
+    let valid = true;
+
+    const insufficientStock = [];
+
+    let amount = 0;
+
+    for (let i = 0; i < cart.products.length; i++) {
+      const cartProduct = cart.products[i];
+
+      const product = await findProductByIdService(cartProduct.product);
+
+      if (product.stock - cartProduct.quantity < 0) {
+        valid = false;
+
+        insufficientStock.push(cartProduct.product);
+      } else {
+        product.stock -= cartProduct.quantity;
+
+        product.save();
+
+        amount += product.price * cartProduct.quantity;
+
+        cartProduct.quantity = 0;
+      }
+    }
+
+    cart.products = cart.products.filter((p) => p.quantity > 0);
+
+    cart.save();
+
+    const purchaser = req.user.email;
+
+    await ticketModel.create({ amount, purchaser });
+
+    if (!valid) {
+      return res.send(insufficientStock);
+    }
+    res.send({ message: "Successful purchase" });
+  } catch (error) {
+    console.error(error);
+    res.status(400).send({ message: "Unsuccessful purchase", error: error });
   }
 };

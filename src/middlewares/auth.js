@@ -14,3 +14,12 @@ export const existingUser = (req, res, next) => {
     res.redirect("/");
   }
 };
+
+export const authorization = (role) => {
+  return (req, res, next) => {
+
+    if(req.user.role != role) return res.status(401).send({message: "Unauthorized"})
+
+    next();
+
+}};

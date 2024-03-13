@@ -3,6 +3,7 @@ import { validateRegister } from "../middlewares/validateUser.js";
 import passport from "passport";
 import {
   getCurrent,
+  getCurrentCart,
   getGitHub,
   getGitHubCallBack,
   postLogin,
@@ -52,6 +53,12 @@ sessionRouter.get(
   "/current",
   passport.authenticate("current", { session: false }),
   getCurrent
+);
+
+sessionRouter.get(
+  "/currentCart",
+  passport.authenticate("current", { session: false }),
+  getCurrentCart
 );
 
 export default sessionRouter;

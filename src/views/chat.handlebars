@@ -6,10 +6,12 @@
 </div>
 <div id="chat">
     <div id="messages"></div>
+    {{#if isUser}}
     <div>
         <input type="text" placeholder="Nuevo mensaje" id="newMessage" />
         <button id="submitMessage">Enviar</button>
     </div>
+    {{/if}}
 </div>
 
 <script src="/socket.io/socket.io.js"></script>

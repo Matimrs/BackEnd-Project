@@ -31,7 +31,11 @@ viewsRouter.get("/failLogin", getFailLoginView);
 
 viewsRouter.get("/realtimeproducts", getRealTimeProductsView);
 
-viewsRouter.get("/chat", getChatView);
+viewsRouter.get(
+  "/chat",
+  passport.authenticate("current", { session: false }),
+  getChatView
+);
 
 viewsRouter.get("/carts/:cid", getCartView);
 

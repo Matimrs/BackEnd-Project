@@ -16,16 +16,16 @@ logout.addEventListener("click", async () => {
 const seeCart = document.getElementById("seeCart");
 
 seeCart.addEventListener("click", async () => {
-  const response = await fetch("http://localhost:8080/api/session/current", {
+  const response = await fetch("http://localhost:8080/api/session/currentCart", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   });
 
-  const data = await response.json();
+  const cid = await response.json();
 
-  const cid = data.cart;
+  //const email = data.email;
 
   const response2 = await fetch(`http://localhost:8080/carts/${cid}`, {
     method: "GET",

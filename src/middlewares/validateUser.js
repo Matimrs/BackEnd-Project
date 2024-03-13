@@ -9,3 +9,5 @@ export const validateRegister = (req, res, next) => {
     ? next()
     : res.status(400).send({ error: "Invalids fields" });
 };
+
+

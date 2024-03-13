@@ -53,7 +53,9 @@ export const getRealTimeProductsView = (req, res) => {
 };
 
 export const getChatView = (req, res) => {
-  res.render("chat");
+  const isUser = req.user.role === "user";
+  
+  res.render("chat", { isUser });
 };
 
 export const getCartView = async (req, res) => {
