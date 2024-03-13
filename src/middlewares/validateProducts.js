@@ -1,4 +1,4 @@
-import { getCartService } from "../services/carts.service.js";
+import { getCartService } from "../dao/mongo/services/carts.service.js";
 
 export const validateProducts = (req, res, next) => {
   const { products } = req.body;

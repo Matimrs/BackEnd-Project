@@ -1,8 +1,8 @@
 import passport from "passport";
 import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
 import local from "passport-local";
-import { userModel } from "../models/user.model.js";
-import { cartModel } from "../models/cart.model.js";
+import { userModel } from "../dao/mongo/models/user.model.js";
+import { cartModel } from "../dao/mongo/models/cart.model.js";
 import { hashing, passwordValidation } from "../utils/crypt.js";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import config from "./config.js";

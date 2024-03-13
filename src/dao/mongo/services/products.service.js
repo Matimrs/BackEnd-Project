@@ -6,7 +6,7 @@ import {
   createProduct,
   updateOneProduct,
   deleteOneProduct
-} from "../persistence/products.persistence.js";
+} from "../persistence/products.mongo.js";
 
 export const productsAggregateService = async (array) => {
   return productsAggregate(array);

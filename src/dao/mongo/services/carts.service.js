@@ -1,4 +1,4 @@
-import { createCart, findCartByID, getCartPersistence, getCartsPersistence, updateOneCart } from "../persistence/carts.persistence.js"
+import { createCart, findCartByID, getCartPersistence, getCartsPersistence, updateOneCart } from "../persistence/carts.mongo.js"
 
 export const getCartsService = () => {
     return getCartsPersistence();

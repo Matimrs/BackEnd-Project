@@ -1,6 +1,6 @@
-import { userModel } from "../models/user.model.js";
-import { productModel } from "../models/product.model.js";
-import { cartModel } from "../models/cart.model.js";
+import { userModel } from "../dao/mongo/models/user.model.js";
+import { productModel } from "../dao/mongo/models/product.model.js";
+import { cartModel } from "../dao/mongo/models/cart.model.js";
 
 export const getHomeView = async (req, res) => {
   try {
@@ -54,7 +54,7 @@ export const getRealTimeProductsView = (req, res) => {
 
 export const getChatView = (req, res) => {
   const isUser = req.user.role === "user";
-  
+
   res.render("chat", { isUser });
 };
 

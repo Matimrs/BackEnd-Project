@@ -6,7 +6,7 @@ import {
   productsAggregatePaginateService,
   productsAggregateService,
   updateOneProductService,
-} from "../services/products.service.js";
+} from "../dao/mongo/services/products.service.js";
 
 export const getProducts = async (req, res) => {
   try {

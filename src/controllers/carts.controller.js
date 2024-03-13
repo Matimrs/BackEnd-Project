@@ -5,9 +5,9 @@ import {
   getCartService,
   getCartsService,
   updateOneCartService,
-} from "../services/carts.service.js";
-import { findProductByIdService } from "../services/products.service.js";
-import { ticketModel } from "../models/ticket.model.js";
+} from "../dao/mongo/services/carts.service.js";
+import { findProductByIdService } from "../dao/mongo/services/products.service.js";
+import { ticketModel } from "../dao/mongo/models/ticket.model.js";
 
 export const getCarts = async (req, res) => {
   try {
