@@ -3,10 +3,12 @@ import {
   deleteOneProductService,
   findOneProductService,
   findProductByIdService,
+  getAllMockingProductsService,
   productsAggregatePaginateService,
   productsAggregateService,
   updateOneProductService,
 } from "../dao/mongo/services/products.service.js";
+
 
 export const getProducts = async (req, res) => {
   try {
@@ -160,5 +162,19 @@ export const deleteProduct = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: "Internal server error" });
+  }
+};
+
+export const getMockingProducts = (req, res) => {
+  try {
+    const quantity = 100;
+
+    const products = getAllMockingProductsService(quantity);
+
+    res.send({products: [...products]});
+
+  } catch (error) {
+    console.error(error);
+    res.status(404).send({ message: "Products not found" });
   }
 };

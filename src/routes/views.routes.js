@@ -12,6 +12,7 @@ import {
   getRealTimeProductsView,
   getRegisterView,
 } from "../controllers/views.controller.js";
+import { getMockingProducts } from "../controllers/products.controller.js";
 
 export const viewsRouter = Router();
 
@@ -40,3 +41,5 @@ viewsRouter.get(
 viewsRouter.get("/carts/:cid", getCartView);
 
 viewsRouter.get("/products", getProductsView);
+
+viewsRouter.get("/mockingproducts", getMockingProducts)

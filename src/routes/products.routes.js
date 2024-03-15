@@ -36,4 +36,6 @@ productsRouter.delete(
   deleteProduct
 );
 
+
+
 export default productsRouter;

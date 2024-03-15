@@ -5,7 +5,8 @@ import {
   findOneProduct,
   createProduct,
   updateOneProduct,
-  deleteOneProduct
+  deleteOneProduct,
+  getAllMockingProducts
 } from "../persistence/products.mongo.js";
 
 export const productsAggregateService = async (array) => {
@@ -34,4 +35,8 @@ export const updateOneProductService = (filter, updates) => {
 
 export const deleteOneProductService = (filter) => {
     return deleteOneProduct(filter);
+}
+
+export const getAllMockingProductsService = (quantity) => {
+  return getAllMockingProducts(quantity);
 }
