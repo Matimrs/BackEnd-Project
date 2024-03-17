@@ -1,13 +1,18 @@
-import { userModel } from "../dao/mongo/models/user.model.js";
-import { productModel } from "../dao/mongo/models/product.model.js";
-import { cartModel } from "../dao/mongo/models/cart.model.js";
+import { findUserByIDService } from "../dao/mongo/services/users.service.js";
+import { findCartByIDandPopulateService } from "../dao/mongo/services/carts.service.js";
+import {
+  findProductsService,
+  productsAggregatePaginateService,
+  productsAggregateService,
+} from "../dao/mongo/services/products.service.js";
 
 export const getHomeView = async (req, res) => {
   try {
-    const user = await userModel.findById(req.user.id);
-    const products = await productModel.find().lean();
+    const user = await findUserByIDService(req.user.id);
+    const products = await findProductsService();
     res.render("home", { products, user });
   } catch (error) {
+    console.error(error);
     res.redirect("/login");
   }
 };
@@ -62,10 +67,7 @@ export const getCartView = async (req, res) => {
   try {
     const { cid } = req.params;
 
-    const cart = await cartModel
-      .findById(cid)
-      .populate("products.product")
-      .lean();
+    const cart = await findCartByIDandPopulateService(cid);
 
     if (!cart) return res.status(404).send({ message: "Cart not found" });
 
@@ -85,8 +87,8 @@ export const getProductsView = async (req, res) => {
 
     const _page = page ? +page : 1;
 
-    const products = await productModel.aggregatePaginate(
-      productModel.aggregate(),
+    const products = await productsAggregatePaginateService(
+      await productsAggregateService(),
       { page: _page }
     );
 

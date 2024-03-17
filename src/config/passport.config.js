@@ -1,11 +1,15 @@
 import passport from "passport";
 import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
 import local from "passport-local";
-import { userModel } from "../dao/mongo/models/user.model.js";
-import { cartModel } from "../dao/mongo/models/cart.model.js";
 import { hashing, passwordValidation } from "../utils/crypt.js";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import config from "./config.js";
+import { createCartService } from "../dao/mongo/services/carts.service.js";
+import {
+  createUserService,
+  findOneUserService,
+  findUserByIDService,
+} from "../dao/mongo/services/users.service.js";
 
 const COOKIE_TOKEN = config.cookieToken;
 
@@ -16,7 +20,7 @@ export const initializePassport = () => {
     let token = null;
     try {
       if (req && req.cookies) {
-        token = req.cookies[COOKIE_TOKEN]; 
+        token = req.cookies[COOKIE_TOKEN];
       }
     } catch (error) {
       console.error(error);
@@ -33,7 +37,7 @@ export const initializePassport = () => {
       async (req, username, password, done) => {
         const { first_name, last_name, email, age } = req.body;
         try {
-          const user = await userModel.findOne({ email: username });
+          const user = await findOneUserService({ email: username });
           if (user) {
             console.log("User already exists");
             return done(null, false);
@@ -42,13 +46,13 @@ export const initializePassport = () => {
 
           if (!hashedPassword) return done("Error saving password", false);
 
-          const cart = await cartModel.create({ products: [] });
+          const cart = await createCartService();
 
           if (!cart) {
             return done("Error creating cart", false);
           }
 
-          const result = await userModel.create({
+          const result = await createUserService({
             first_name,
             last_name,
             email,
@@ -73,7 +77,7 @@ export const initializePassport = () => {
       },
       async (req, username, password, done) => {
         try {
-          const user = await userModel.findOne({ email: username });
+          const user = await findOneUserService({ email: username });
 
           if (!user) {
             console.log("Invalid credentials");
@@ -107,11 +111,11 @@ export const initializePassport = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          const OldUser = await userModel.findOne({
+          const OldUser = await findOneUserService({
             email: profile._json.email ?? profile.username,
           });
 
-          const cart = await cartModel.create({ products: [] });
+          const cart = await createCartService();
 
           if (!cart) {
             return done("Error creating cart", false);
@@ -120,13 +124,14 @@ export const initializePassport = () => {
           if (!OldUser) {
             const newUser = {
               first_name: profile._json.name.split(" ")[0],
-              last_name: profile._json.name.split(" ")[1] ?? config.lastNameGitHub, 
+              last_name:
+                profile._json.name.split(" ")[1] ?? config.lastNameGitHub,
               age: 18,
               email: profile._json.email ?? profile.username,
               password: config.passwordGitHub,
               cart: cart._id,
             };
-            const user = await userModel.create(newUser);
+            const user = await createUserService(newUser);
 
             return done(null, user);
           }
@@ -164,7 +169,7 @@ export const initializePassport = () => {
       },
       async (payload, done) => {
         try {
-          const user = await userModel.findById(payload.id);
+          const user = await findUserByIDService(payload.id);
           return done(null, user);
         } catch (error) {
           return done(error, false);
@@ -176,7 +181,7 @@ export const initializePassport = () => {
     done(null, user._id);
   });
   passport.deserializeUser(async (id, done) => {
-    const user = await userModel.findById(id);
+    const user = await findUserByIDService(id);
     done(null, user);
   });
 };

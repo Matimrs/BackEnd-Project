@@ -5,14 +5,20 @@ import cartsRouter from "./routes/carts.routes.js";
 import { Server } from "socket.io";
 import handlebars from "express-handlebars";
 import mongoose from "mongoose";
-import { productModel } from "./dao/mongo/models/product.model.js";
-import { messageModel } from "./dao/mongo/models/message.model.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import sessionRouter from "./routes/session.routes.js";
 import { initializePassport } from "./config/passport.config.js";
 import passport from "passport";
 import cookieParser from "cookie-parser";
-
+import {
+  createProductService,
+  deleteOneProductService,
+  findProductsService,
+} from "./dao/mongo/services/products.service.js";
+import {
+  createMessageService,
+  findMessagesService,
+} from "./dao/mongo/services/message.service.js";
 
 const PORT = +config.port;
 const app = express();
@@ -46,34 +52,32 @@ app.use("/api/carts", cartsRouter);
 app.use("/", viewsRouter);
 app.use("/api/session", sessionRouter);
 
-mongoose.connect(
-  config.connectMongo
-);
+mongoose.connect(config.connectMongo);
 
 io.on("connection", async (socket) => {
-  let products = await productModel.find();
+  let products = await findProductsService();
 
   socket.emit("products", { products });
 
   socket.on("createProduct", async (producto) => {
-    await productModel.create(producto);
-    products = await productModel.find();
+    await createProductService(producto);
+    products = await findProductsService();
     socket.emit("products", { products });
   });
 
   socket.on("deleteProduct", async (id) => {
-    await productModel.deleteOne({ _id: id });
-    products = await productModel.find();
+    await deleteOneProductService({ _id: id });
+    products = await findProductsService();
     socket.emit("products", { products });
   });
 
-  let messages = await messageModel.find();
+  let messages = await findMessagesService();
 
   socket.emit("chat", { messages });
 
   socket.on("newMessage", async (message) => {
-    await messageModel.create(message);
-    messages = await messageModel.find();
+    await createMessageService(message);
+    messages = await findMessagesService();
     io.emit("chat", { messages });
   });
 });

@@ -1,5 +1,6 @@
 import config from "../config/config.js";
 import { generateToken } from "../config/jwt.config.js";
+import { UserDTO } from "../dao/dto/user.dto.js";
 
 const COOKIE_TOKEN = config.cookieToken;
 
@@ -59,11 +60,9 @@ export const getGitHubCallBack = (req, res) => {
 
 export const getCurrent = (req, res) => {
   try {
-    const user = {
-      name: `${req.user.first_name} ${req.user.last_name}`,
-      email: req.user.email,
-      role: req.user.role,
-    };
+    const { first_name, last_name, age ,email, cart, role } = req.user;
+    const userDto = new UserDTO( first_name, last_name, age ,email, cart, role );
+    const user = userDto.getCurrent();
     res.send(user);
   } catch (error) {
     console.error(error);

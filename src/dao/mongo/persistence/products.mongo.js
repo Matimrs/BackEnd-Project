@@ -9,6 +9,10 @@ export const productsAggregatePaginate = async (aggregate, options) => {
   return await productModel.aggregatePaginate(aggregate, options);
 };
 
+export const findProducts = async () => {
+  return await productModel.find();
+}
+
 export const findProductByID = async (pid) => {
   return await productModel.findById(pid);
 };

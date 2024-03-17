@@ -13,13 +13,13 @@ export const getCartPersistence = async (cid) => {
 };
 
 export const findCartByID = async (cid) => {
-    return await cartModel.findById(cid);
-}
+  return await cartModel.findById(cid);
+};
+
+export const findCartByIDandPopulate = async (cid) => {
+  return await cartModel.findById(cid).populate("products.product").lean();
+};
 
 export const updateOneCart = async (filter, updates) => {
-    return await cartModel.updateOne(
-        filter,
-        updates
-      )
-}
-
+  return await cartModel.updateOne(filter, updates);
+};
