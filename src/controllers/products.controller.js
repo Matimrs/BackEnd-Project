@@ -118,7 +118,7 @@ export const postProduct = async (req, res) => {
     try {
       const existing = await findOneProductService({ code: product.code });
       if (existing) {
-        return res.status(400).send({ message: "The product already exists" });
+        return res.status(409).send({ message: "The product already exists" });
       }
       await createProductService({ ...product, available: true });
       res.status(201).send({ message: "Product added" });

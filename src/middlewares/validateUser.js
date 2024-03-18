@@ -7,7 +7,7 @@ export const validateRegister = (req, res, next) => {
     "string" === typeof password &&
     "number" === typeof +age
     ? next()
-    : res.status(400).send({ error: "Invalids fields" });
+    : res.status(400).send({ error: "Invalids format" });
 };
 
 

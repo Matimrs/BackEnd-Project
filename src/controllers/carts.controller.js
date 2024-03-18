@@ -15,7 +15,7 @@ export const getCarts = async (req, res) => {
 
     res.status(200).send(carts);
   } catch (error) {
-    res.status(500).send({ error: "Internal server error" });
+    res.status(404).send({ error: "Carts not found" });
   }
 };
 
@@ -27,7 +27,7 @@ export const postCart = async (req, res) => {
   } catch (error) {
     console.error(error);
 
-    res.status(400).send({ error: "Cart not added" });
+    res.status(422).send({ error: "Cart not created" });
   }
 };
 
@@ -38,7 +38,7 @@ export const getCart = async (req, res) => {
     const cart = await getCartService(cid);
 
     if (!cart) {
-      res.status(404).send({ error: "Cart not found" });
+      return res.status(404).send({ error: "Cart not found" });
     }
 
     res.status(200).send(cart.products);
@@ -69,12 +69,9 @@ export const postProductToCart = async (req, res) => {
       return p;
     });
 
-    if (!flag)
-      await updateOneCartService(
-        { _id: cid },
-        { products: [...products, { product: pid, quantity: 1 }] }
-      );
-    else await updateOneCartService({ _id: cid }, { products: products });
+    if (!flag) products.push({ product: pid, quantity: 1 });
+
+    await updateOneCartService({ _id: cid }, { products: products });
 
     res.send({ message: "Product added" });
   } catch (error) {
@@ -92,18 +89,16 @@ export const deleteProductFromCart = async (req, res) => {
 
     const cart = await findCartByIDService(cid);
 
-    if (!cart) return res.status(400).send({ message: "Cart not found" });
+    if (!cart) return res.status(404).send({ message: "Cart not found" });
 
     const product = cart.products.find((p) => p.product.equals(_pid));
 
     if (!product)
       return res
-        .status(400)
-        .send({ message: "Product not found in this cart" });
+        .status(404)
+        .send({ message: "Product not found" });
 
-    const productIndex = cart.products.indexOf(product);
-
-    cart.products.splice(productIndex, 1);
+    cart.products = cart.products.filter(p => !p.product.equals(_pid));
 
     cart.save();
 
@@ -121,7 +116,7 @@ export const deleteProductsFromCart = async (req, res) => {
 
     const status = await updateOneCartService({ _id: cid }, { products: [] });
 
-    if (!status) return res.status(400).send({ message: "Cart not found" });
+    if (!status) return res.status(404).send({ message: "Cart not found" });
 
     res.send({ message: "Products deleted from cart" });
   } catch (error) {
@@ -141,12 +136,12 @@ export const putProductFromCart = async (req, res) => {
 
     const cart = await findCartByIDService(cid);
 
-    if (!cart) return res.status(400).send({ message: "Cart not found" });
+    if (!cart) return res.status(404).send({ message: "Cart not found" });
 
     const product = cart.products.find((p) => p.product.equals(_pid));
 
     if (!product)
-      return res.status(400).send({ message: "Product not found in the cart" });
+      return res.status(404).send({ message: "Product not found" });
 
     product.quantity = quantity;
 
@@ -168,7 +163,7 @@ export const putCart = async (req, res) => {
 
     const cart = await findCartByIDService(cid);
 
-    if (!cart) return res.status(400).send({ message: "Cart not found" });
+    if (!cart) return res.status(404).send({ message: "Cart not found" });
 
     cart.products = products;
 
@@ -225,9 +220,10 @@ export const postPurchase = async (req, res) => {
     if (!valid) {
       return res.send(insufficientStock);
     }
+
     res.send({ message: "Successful purchase" });
   } catch (error) {
     console.error(error);
-    res.status(400).send({ message: "Unsuccessful purchase", error: error });
+    res.status(500).send({error: "Internal server error" });
   }
 };

@@ -25,8 +25,8 @@ export const validateCart = (req, res, next) => {
   const { cid } = req.params;
   const cart = getCartService(cid);
 
-  if(cart.products == []){
-    return res.status(400).send({message: "Cart empty"});
+  if (cart.products == []) {
+    return res.status(400).send({ message: "Cart empty" });
   }
   next();
 };

@@ -12,12 +12,12 @@ export const postRegister = async (req, res) => {
         maxAge: 60 * 60 * 168,
         httpOnly: true,
       })
-      .status(300)
+      .status(200)
       .redirect("/");
   } catch (error) {
     console.error(error);
 
-    res.status(400).send(error);
+    res.status(500).send({ error: "Internal server error" });
   }
 };
 
@@ -29,12 +29,12 @@ export const postLogin = async (req, res) => {
         maxAge: 60 * 60 * 168,
         httpOnly: true,
       })
-      .status(300)
+      .status(200)
       .redirect("/");
   } catch (error) {
     console.error(error);
 
-    res.status(400).send({ error });
+    res.status(500).send({ error: "Internal server error" });
   }
 };
 
@@ -47,7 +47,7 @@ export const postLogout = async (req, res) => {
   } catch (error) {
     console.error(error);
 
-    res.status(400).send({ error });
+    res.status(500).send({ error: "Internal server error" });
   }
 };
 
@@ -55,7 +55,7 @@ export const getGitHub = (req, res) => {};
 
 export const getGitHubCallBack = (req, res) => {
   req.session.user = req.user;
-  res.status(300).redirect("/");
+  res.redirect("/");
 };
 
 export const getCurrent = (req, res) => {
@@ -66,7 +66,7 @@ export const getCurrent = (req, res) => {
     res.send(user);
   } catch (error) {
     console.error(error);
-    res.status(401).send({ error: "User not found" });
+    res.status(404).send({ error: "User not found" });
   }
 };
 
@@ -77,6 +77,6 @@ export const getCurrentCart = async (req, res) => {
     res.send(cid);
   } catch (error) {
     console.error(error);
-    res.send({ error: error });
+    res.status(500).send({ error: "Internal server error" });
   }
 };
