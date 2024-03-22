@@ -15,7 +15,7 @@ export const postRegister = async (req, res) => {
       .status(200)
       .redirect("/");
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
 
     res.status(500).send({ error: "Internal server error" });
   }
@@ -32,7 +32,7 @@ export const postLogin = async (req, res) => {
       .status(200)
       .redirect("/");
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
 
     res.status(500).send({ error: "Internal server error" });
   }
@@ -45,7 +45,7 @@ export const postLogout = async (req, res) => {
     });
     res.send({ redirect: "http://localhost:8080/login" });
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
 
     res.status(500).send({ error: "Internal server error" });
   }
@@ -65,7 +65,7 @@ export const getCurrent = (req, res) => {
     const user = userDto.getCurrent();
     res.send(user);
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
     res.status(404).send({ error: "User not found" });
   }
 };
@@ -76,7 +76,7 @@ export const getCurrentCart = async (req, res) => {
 
     res.send(cid);
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
     res.status(500).send({ error: "Internal server error" });
   }
 };

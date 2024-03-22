@@ -5,14 +5,17 @@ dotenv.config();
 let PORT, API_SESSION;
 
 if (process.env.ENV_MODE === "development") {
-  PORT = process.development.env.PORT;
-  API_SESSION = process.development.env.API_SESSION;
+  dotenv.config({ path: '.development.env' });
+  PORT = process.env.PORT;
+  API_SESSION = process.env.API_SESSION;
 } else {
-  PORT = process.production.env.PORT;
-  API_SESSION = process.production.env.API_SESSION;
+  dotenv.config({ path: '.production.env' });
+  PORT = process.env.PORT;
+  API_SESSION = process.env.API_SESSION;
 }
 
 export default {
+  env_mode: process.env.ENV_MODE,
   tokenSecret: process.env.TOKEN_SECRET,
   cookieToken: process.env.COOKIE_TOKEN,
   connectMongo: process.env.CONNECT_MONGO,

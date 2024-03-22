@@ -7,6 +7,7 @@ import {
   getFailLoginView,
   getFailRegisterView,
   getHomeView,
+  getLoggerTest,
   getLoginView,
   getProductsView,
   getRealTimeProductsView,
@@ -42,4 +43,6 @@ viewsRouter.get("/carts/:cid", getCartView);
 
 viewsRouter.get("/products", getProductsView);
 
-viewsRouter.get("/mockingproducts", getMockingProducts)
+viewsRouter.get("/mockingproducts", getMockingProducts);
+
+viewsRouter.get("/loggertest", getLoggerTest);

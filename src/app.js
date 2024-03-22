@@ -19,6 +19,7 @@ import {
   createMessageService,
   findMessagesService,
 } from "./dao/mongo/services/message.service.js";
+import { addLogger } from "./utils/logger.js";
 
 const PORT = +config.port;
 const app = express();
@@ -47,6 +48,7 @@ app.engine("handlebars", hbs.engine);
 app.set("views", "src/views");
 app.set("view engine", "handlebars");
 
+app.use(addLogger)
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/", viewsRouter);

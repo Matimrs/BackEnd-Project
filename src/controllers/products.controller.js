@@ -71,7 +71,7 @@ export const getProducts = async (req, res) => {
 
     if (!products) {
       products = { status: "error" };
-
+      req.logger.error('Product not found')
       return res.status(404).send({ message: "Products not found" });
     }
 
@@ -93,7 +93,7 @@ export const getProducts = async (req, res) => {
 
     res.status(200).send(products);
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
 
     res.status(500).send({ error: "Internal server error" });
   }
@@ -104,6 +104,7 @@ export const getProduct = async (req, res) => {
     const { pid } = req.params;
     const product = await findProductByIdService(pid);
     if (!product) {
+      req.logger.error('Product not found')
       return res.status(404).send({ error: "Product not found" });
     }
     res.status(200).send(product);
@@ -118,16 +119,17 @@ export const postProduct = async (req, res) => {
     try {
       const existing = await findOneProductService({ code: product.code });
       if (existing) {
+        req.logger.warning('The product already exists')
         return res.status(409).send({ message: "The product already exists" });
       }
       await createProductService({ ...product, available: true });
       res.status(201).send({ message: "Product added" });
     } catch (error) {
-      console.error(error);
+      req.logger.error(error)
       res.status(400).send({ error: "All fields are required" });
     }
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
     res.status(500).send({ error: "Internal server error" });
   }
 };
@@ -140,11 +142,11 @@ export const putProduct = async (req, res) => {
       await updateOneProductService({ _id: pid }, product);
       res.status(201).send({ message: "Product updated" });
     } catch (error) {
-      console.error(error);
+      req.logger.error(error)
       res.status(404).send({ error: "Product not found" });
     }
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
     res.status(500).send({ error: "Internal server error" });
   }
 };
@@ -156,11 +158,11 @@ export const deleteProduct = async (req, res) => {
       await deleteOneProductService({ _id: pid });
       res.send({ message: "Product deleted" });
     } catch (error) {
-      console.error(error);
+      req.logger.error(error)
       res.status(404).send({ error: "Product not found" });
     }
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
     res.status(500).send({ error: "Internal server error" });
   }
 };
@@ -174,7 +176,7 @@ export const getMockingProducts = (req, res) => {
     res.send({products: [...products]});
 
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
     res.status(404).send({ message: "Products not found" });
   }
 };

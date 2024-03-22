@@ -12,7 +12,7 @@ export const getHomeView = async (req, res) => {
     const products = await findProductsService();
     res.render("home", { products, user });
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
     res.redirect("/login");
   }
 };
@@ -21,7 +21,7 @@ export const getRegisterView = (req, res) => {
   try {
     res.render("register");
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
     res.status(400).send(error);
   }
 };
@@ -30,7 +30,7 @@ export const getFailRegisterView = (req, res) => {
   try {
     res.render("failRegister");
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
     res.status(400).send(error);
   }
 };
@@ -39,7 +39,7 @@ export const getLoginView = (req, res) => {
   try {
     res.render("login");
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
     res.status(400).send(error);
   }
 };
@@ -48,7 +48,7 @@ export const getFailLoginView = (req, res) => {
   try {
     res.render("failLogin");
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
     res.status(400).send(error);
   }
 };
@@ -75,7 +75,7 @@ export const getCartView = async (req, res) => {
 
     res.render("cart", { products });
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
 
     res.status(500).send(error);
   }
@@ -97,8 +97,20 @@ export const getProductsView = async (req, res) => {
 
     res.render("products", products);
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
 
     res.status(500).send(error);
   }
+};
+
+export const getLoggerTest = (req, res) => {
+  const date = new Date().toLocaleDateString();
+
+  req.logger.debug("Debug logger - " + date);
+  req.logger.http("Http logger - " + date);
+  req.logger.info("Info logger - " + date);
+  req.logger.warning("Warning logger - " + date);
+  req.logger.error("Error logger - " + date);
+  req.logger.fatal("Fatal logger - " + date);
+  res.send({ message: "Logger works" });
 };

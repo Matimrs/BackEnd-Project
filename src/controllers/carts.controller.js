@@ -15,6 +15,7 @@ export const getCarts = async (req, res) => {
 
     res.status(200).send(carts);
   } catch (error) {
+    req.logger.error(error);
     res.status(404).send({ error: "Carts not found" });
   }
 };
@@ -25,7 +26,7 @@ export const postCart = async (req, res) => {
 
     res.status(201).send({ message: "Cart created" });
   } catch (error) {
-    console.error(error);
+    req.logger.error(error);
 
     res.status(422).send({ error: "Cart not created" });
   }
@@ -38,12 +39,13 @@ export const getCart = async (req, res) => {
     const cart = await getCartService(cid);
 
     if (!cart) {
+      req.logger.error("Cart not found");
       return res.status(404).send({ error: "Cart not found" });
     }
 
     res.status(200).send(cart.products);
   } catch (error) {
-    console.error(error);
+    req.logger.error(error);
 
     res.status(500).send({ error: "Internal server error" });
   }
@@ -75,7 +77,7 @@ export const postProductToCart = async (req, res) => {
 
     res.send({ message: "Product added" });
   } catch (error) {
-    console.error(error);
+    req.logger.error(error);
 
     res.status(500).send({ message: "Internal server error" });
   }
@@ -89,22 +91,25 @@ export const deleteProductFromCart = async (req, res) => {
 
     const cart = await findCartByIDService(cid);
 
-    if (!cart) return res.status(404).send({ message: "Cart not found" });
+    if (!cart) {
+      req.logger.error("Cart not found");
+      return res.status(404).send({ message: "Cart not found" });
+    }
 
     const product = cart.products.find((p) => p.product.equals(_pid));
 
-    if (!product)
-      return res
-        .status(404)
-        .send({ message: "Product not found" });
+    if (!product) {
+      req.logger.error("Product not found");
+      return res.status(404).send({ message: "Product not found" });
+    }
 
-    cart.products = cart.products.filter(p => !p.product.equals(_pid));
+    cart.products = cart.products.filter((p) => !p.product.equals(_pid));
 
     cart.save();
 
     res.send({ message: "Product deleted" });
   } catch (error) {
-    console.error(error);
+    req.logger.error(error);
 
     res.status(500).send(error);
   }
@@ -116,11 +121,14 @@ export const deleteProductsFromCart = async (req, res) => {
 
     const status = await updateOneCartService({ _id: cid }, { products: [] });
 
-    if (!status) return res.status(404).send({ message: "Cart not found" });
+    if (!status) {
+      req.logger.error("Cart not found");
+      return res.status(404).send({ message: "Cart not found" });
+    }
 
     res.send({ message: "Products deleted from cart" });
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
 
     res.status(500).send(error);
   }
@@ -136,12 +144,16 @@ export const putProductFromCart = async (req, res) => {
 
     const cart = await findCartByIDService(cid);
 
-    if (!cart) return res.status(404).send({ message: "Cart not found" });
+    if (!cart) {
+      req.logger.error('Cart not found')
+      return res.status(404).send({ message: "Cart not found" });
+    }
 
     const product = cart.products.find((p) => p.product.equals(_pid));
 
-    if (!product)
-      return res.status(404).send({ message: "Product not found" });
+    if (!product) {
+      req.logger.error('Product not found')
+      return res.status(404).send({ message: "Product not found" });}
 
     product.quantity = quantity;
 
@@ -149,7 +161,7 @@ export const putProductFromCart = async (req, res) => {
 
     res.send({ message: "Product updated" });
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
 
     res.status(500).send(error);
   }
@@ -163,7 +175,9 @@ export const putCart = async (req, res) => {
 
     const cart = await findCartByIDService(cid);
 
-    if (!cart) return res.status(404).send({ message: "Cart not found" });
+    if (!cart) {
+      req.logger.error('Cart not found')
+      return res.status(404).send({ message: "Cart not found" });}
 
     cart.products = products;
 
@@ -171,7 +185,7 @@ export const putCart = async (req, res) => {
 
     res.send({ message: "Products modified success" });
   } catch (error) {
-    console.error(error);
+    req.logger.error(error)
 
     res.status(500).send(error);
   }
@@ -223,7 +237,7 @@ export const postPurchase = async (req, res) => {
 
     res.send({ message: "Successful purchase" });
   } catch (error) {
-    console.error(error);
-    res.status(500).send({error: "Internal server error" });
+    req.logger.error(error)
+    res.status(500).send({ error: "Internal server error" });
   }
 };
