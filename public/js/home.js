@@ -1,3 +1,5 @@
+localStorage.clear();
+
 const logout = document.getElementById("logout");
 
 logout.addEventListener("click", async () => {

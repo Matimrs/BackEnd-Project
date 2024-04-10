@@ -40,7 +40,7 @@ cartsRouter.put("/:cid/product/:pid", putProductFromCart);
 
 cartsRouter.put("/:cid", validateProducts, putCart);
 
-cartsRouter.post(
+cartsRouter.get(
   "/:cid/purchase",
   passport.authenticate("current", { session: false }),
   validateCart,

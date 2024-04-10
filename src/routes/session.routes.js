@@ -61,4 +61,6 @@ sessionRouter.get(
   getCurrentCart
 );
 
+sessionRouter.post("/restorePassword")
+
 export default sessionRouter;

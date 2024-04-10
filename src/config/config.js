@@ -5,11 +5,11 @@ dotenv.config();
 let PORT, API_SESSION;
 
 if (process.env.ENV_MODE === "development") {
-  dotenv.config({ path: '.development.env' });
+  dotenv.config({ path: ".development.env" });
   PORT = process.env.PORT;
   API_SESSION = process.env.API_SESSION;
 } else {
-  dotenv.config({ path: '.production.env' });
+  dotenv.config({ path: ".production.env" });
   PORT = process.env.PORT;
   API_SESSION = process.env.API_SESSION;
 }
@@ -26,4 +26,5 @@ export default {
   lastNameGitHub: process.env.GITHUB_LAST_NAME,
   passwordGitHub: process.env.GITHUB_PASSWORD,
   sessionAPI: API_SESSION,
+  passwordGoogle: process.env.GOOGLE_PASSWORD,
 };

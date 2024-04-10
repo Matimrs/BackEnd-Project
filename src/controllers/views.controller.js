@@ -12,7 +12,7 @@ export const getHomeView = async (req, res) => {
     const products = await findProductsService();
     res.render("home", { products, user });
   } catch (error) {
-    req.logger.error(error)
+    req.logger.error(error);
     res.redirect("/login");
   }
 };
@@ -21,7 +21,7 @@ export const getRegisterView = (req, res) => {
   try {
     res.render("register");
   } catch (error) {
-    req.logger.error(error)
+    req.logger.error(error);
     res.status(400).send(error);
   }
 };
@@ -30,7 +30,7 @@ export const getFailRegisterView = (req, res) => {
   try {
     res.render("failRegister");
   } catch (error) {
-    req.logger.error(error)
+    req.logger.error(error);
     res.status(400).send(error);
   }
 };
@@ -39,7 +39,7 @@ export const getLoginView = (req, res) => {
   try {
     res.render("login");
   } catch (error) {
-    req.logger.error(error)
+    req.logger.error(error);
     res.status(400).send(error);
   }
 };
@@ -48,7 +48,7 @@ export const getFailLoginView = (req, res) => {
   try {
     res.render("failLogin");
   } catch (error) {
-    req.logger.error(error)
+    req.logger.error(error);
     res.status(400).send(error);
   }
 };
@@ -75,7 +75,7 @@ export const getCartView = async (req, res) => {
 
     res.render("cart", { products });
   } catch (error) {
-    req.logger.error(error)
+    req.logger.error(error);
 
     res.status(500).send(error);
   }
@@ -97,7 +97,7 @@ export const getProductsView = async (req, res) => {
 
     res.render("products", products);
   } catch (error) {
-    req.logger.error(error)
+    req.logger.error(error);
 
     res.status(500).send(error);
   }
@@ -113,4 +113,11 @@ export const getLoggerTest = (req, res) => {
   req.logger.error("Error logger - " + date);
   req.logger.fatal("Fatal logger - " + date);
   res.send({ message: "Logger works" });
+};
+
+export const getRestorePasswordView = async (req, res) => {
+  const { uid } = req.params;
+  const user = await findUserByIDService(uid);
+  const email = user.email
+  res.render("restorePassword", { email });
 };
