@@ -1,6 +1,7 @@
 <form action="/api/session/login" method="post">
-    <input placeholder="Email" type="email" name="email">
-    <input placeholder="Password" type="password" name="password">
+    <input id="email" placeholder="Email" type="email" name="email">
+    <input id="password" placeholder="Password" type="password" name="password">
+    <button id="restoreBtn" type="button">Restore password</button>
     <button type="submit">Login</button>
 </form>
 
@@ -10,3 +11,4 @@
     <a href="/register"><button type="button"> Sign Up </button></a>
 </div>
 
+<script src="/js/login.js"></script>

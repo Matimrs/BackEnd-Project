@@ -12,6 +12,7 @@ import {
   getProductsView,
   getRealTimeProductsView,
   getRegisterView,
+  getRestorePasswordView,
 } from "../controllers/views.controller.js";
 import { getMockingProducts } from "../controllers/products.controller.js";
 
@@ -46,3 +47,5 @@ viewsRouter.get("/products", getProductsView);
 viewsRouter.get("/mockingproducts", getMockingProducts);
 
 viewsRouter.get("/loggertest", getLoggerTest);
+
+viewsRouter.get("/restorePassword/:token", getRestorePasswordView)

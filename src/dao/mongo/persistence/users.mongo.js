@@ -23,3 +23,7 @@ export const updateUserRole = async (uid) => {
   user.save();
   return user;
 };
+
+export const findUserByIDAndUpdate = async (id, userUpdates) => {
+    return await userModel.findByIdAndUpdate(id, userUpdates)
+}

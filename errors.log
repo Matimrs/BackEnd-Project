@@ -1,0 +1,4 @@
+{"code":11000,"index":0,"keyPattern":{"user":1},"keyValue":{"user":"65c67374094b87e2052c3091"},"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"kind":"string","message":"Cast to string failed for value \"Promise { <pending> }\" (type Promise) at path \"password\"","name":"CastError","path":"password","reason":null,"stringValue":"\"Promise { <pending> }\"","value":{},"valueType":"Promise"}
