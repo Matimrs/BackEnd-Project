@@ -8,6 +8,7 @@ import {
 } from "../controllers/products.controller.js";
 import passport from "passport";
 import { authorization } from "../middlewares/auth.js";
+import { validateUserDeleteProduct } from "../middlewares/validateUser.js";
 
 const productsRouter = Router();
 
@@ -32,7 +33,7 @@ productsRouter.put(
 productsRouter.delete(
   "/:pid",
   passport.authenticate("current", { session: false }),
-  authorization("admin"),
+  validateUserDeleteProduct,
   deleteProduct
 );
 

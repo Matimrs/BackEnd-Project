@@ -1,6 +1,7 @@
 import config from "../config/config.js";
 import { generateToken } from "../config/jwt.config.js";
 import { UserDTO } from "../dao/dto/user.dto.js";
+import { findUserByIDService } from "../dao/mongo/services/users.service.js";
 
 const COOKIE_TOKEN = config.cookieToken;
 
@@ -72,7 +73,10 @@ export const getCurrent = (req, res) => {
 
 export const getCurrentCart = async (req, res) => {
   try {
-    const cid = req.user.cart;
+
+    const user = await findUserByIDService(req.user.id);
+    
+    const cid = user.cart;
 
     res.send(cid);
   } catch (error) {

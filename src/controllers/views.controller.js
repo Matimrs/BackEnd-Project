@@ -57,8 +57,10 @@ export const getRealTimeProductsView = (req, res) => {
   res.render("realTimeProducts");
 };
 
-export const getChatView = (req, res) => {
-  const isUser = req.user.role === "user";
+export const getChatView = async (req, res) => {
+  const user = await findUserByIDService(req.user.id);
+
+  const isUser = user.role === "user";
 
   res.render("chat", { isUser });
 };

@@ -20,6 +20,7 @@ import {
   findMessagesService,
 } from "./dao/mongo/services/message.service.js";
 import { addLogger } from "./utils/logger.js";
+import userRouter from "./routes/users.routes.js";
 
 const PORT = +config.port;
 const app = express();
@@ -53,6 +54,7 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/", viewsRouter);
 app.use("/api/session", sessionRouter);
+app.use("api/users", userRouter)
 
 mongoose.connect(config.connectMongo);
 

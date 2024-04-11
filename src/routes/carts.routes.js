@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   validateCart,
+  validateProductOwner,
   validateProducts,
 } from "../middlewares/validateProducts.js";
 import {
@@ -27,8 +28,9 @@ cartsRouter.get("/:cid", getCart);
 
 cartsRouter.post(
   "/:cid/product/:pid",
-  passport.authenticate("current", { session: false }),
+  passport.authenticate("current", { session: false }), ///
   authorization("user"),
+  validateProductOwner,
   postProductToCart
 );
 

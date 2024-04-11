@@ -1,4 +1,5 @@
 import config from "../config/config.js"
+import { findUserByIDService } from "../dao/mongo/services/users.service.js";
 
 export const existingUser = (req, res, next) => {
   try {
@@ -16,9 +17,11 @@ export const existingUser = (req, res, next) => {
 };
 
 export const authorization = (role) => {
-  return (req, res, next) => {
+  return async (req, res, next) => {
 
-    if(req.user.role != role) return res.status(401).send({message: "Unauthorized"})
+    const user = await findUserByIDService(req.user.id);
+  
+    if(user.role != role) return res.status(401).send({message: "Unauthorized"})
 
     next();
 
