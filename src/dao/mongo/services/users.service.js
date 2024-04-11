@@ -2,6 +2,7 @@ import {
   createUser,
   findOneUser,
   findUserByID,
+  findUserByIDAndUpdate,
   findUsers,
 } from "../persistence/users.mongo.js";
 
@@ -20,3 +21,7 @@ export const findUserByIDService = (id) => {
 export const findUsersService = () => {
   return findUsers();
 };
+
+export const findUserByIDAndUpdateService = (id, userUpdates) => {
+  return findUserByIDAndUpdate(id,userUpdates);
+}

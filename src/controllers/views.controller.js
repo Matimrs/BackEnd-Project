@@ -115,9 +115,7 @@ export const getLoggerTest = (req, res) => {
   res.send({ message: "Logger works" });
 };
 
-export const getRestorePasswordView = async (req, res) => {
-  const { uid } = req.params;
-  const user = await findUserByIDService(uid);
-  const email = user.email
-  res.render("restorePassword", { email });
+export const getRestorePasswordView = (req, res) => {
+  const { token } = req.params;
+  res.render("restorePassword", {token} );
 };

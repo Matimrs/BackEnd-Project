@@ -15,3 +15,7 @@ export const findUserByID = async (id) => {
 export const findUsers = async () => {
     return await userModel.find().lean();
 }
+
+export const findUserByIDAndUpdate = async (id, userUpdates) => {
+    return await userModel.findByIdAndUpdate(id, userUpdates)
+}

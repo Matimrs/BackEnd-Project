@@ -9,6 +9,8 @@ import {
   postLogin,
   postLogout,
   postRegister,
+  postRestorePassword,
+  postRestorePasswordWithToken,
 } from "../controllers/session.controller.js";
 
 const sessionRouter = Router();
@@ -61,6 +63,8 @@ sessionRouter.get(
   getCurrentCart
 );
 
-sessionRouter.post("/restorePassword")
+sessionRouter.post("/restorePassword", postRestorePassword);
+
+sessionRouter.post("/restorePassword/:token", postRestorePasswordWithToken);
 
 export default sessionRouter;

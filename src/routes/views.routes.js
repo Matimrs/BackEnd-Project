@@ -48,4 +48,4 @@ viewsRouter.get("/mockingproducts", getMockingProducts);
 
 viewsRouter.get("/loggertest", getLoggerTest);
 
-viewsRouter.get("/restorePassword/:uid", getRestorePasswordView)
+viewsRouter.get("/restorePassword/:token", getRestorePasswordView)
