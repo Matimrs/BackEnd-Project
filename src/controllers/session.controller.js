@@ -29,7 +29,7 @@ export const postRegister = async (req, res) => {
 export const postLogin = async (req, res) => {
   try {
     const token = generateToken(req.user);
-    res
+    return res
       .cookie(COOKIE_TOKEN, token, {
         maxAge: 60 * 60 * 168,
         httpOnly: true,

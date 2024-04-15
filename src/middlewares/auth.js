@@ -16,13 +16,18 @@ export const existingUser = (req, res, next) => {
   }
 };
 
-export const authorization = (role) => {
+export const authorization = (roles) => {
   return async (req, res, next) => {
 
     const user = await findUserByIDService(req.user.id);
-  
-    if(user.role != role) return res.status(401).send({message: "Unauthorized"})
 
+    let isAuthorized = false;
+
+    roles.forEach(role => {
+      if(user.role === role) isAuthorized = true;
+    });
+
+    if(!isAuthorized) return res.status(401).send({message: "Unauthorized"});
+    
     next();
-
 }};

@@ -9,7 +9,6 @@ import {
   updateOneProductService,
 } from "../dao/mongo/services/products.service.js";
 
-
 export const getProducts = async (req, res) => {
   try {
     const { limit, page, sort, query } = req.query;
@@ -18,62 +17,30 @@ export const getProducts = async (req, res) => {
 
     const _page = page ? +page : 1;
 
-    let products;
+    const _sort = sort ? +sort : 1;
 
-    if (sort) {
-      if (query) {
-        products = await productsAggregatePaginateService(
-          await productsAggregateService([
-            {
-              $match: {
-                category: query,
-              },
-            },
-            {
-              $sort: { price: +sort },
-            },
-          ]),
-          { limit: _limit, page: _page }
-        );
-      } else {
-        products = await productsAggregatePaginateService(
-          await productsAggregateService([
-            {
-              $sort: { price: +sort },
-            },
-          ]),
-          { limit: _limit, page: _page }
-        );
-      }
-    } else {
-      if (query) {
-        products = await productsAggregatePaginateService(
-          await productsAggregateService([
-            {
-              $match: {
-                category: query,
-              },
-            },
-          ]),
-          { limit: _limit, page: _page }
-        );
-      } else {
-        products = await productsAggregatePaginateService(
-          await productsAggregateService([]),
-          { limit: _limit, page: _page }
-        );
-      }
+    let match = null;
+
+    if (query) {
+      match = { $match: { category: query } };
+    }
+
+    const productsAggregate = match ? [match, { $sort: { price: _sort } }] : [{ $sort: { price: _sort } }];
+
+    const products = await productsAggregatePaginateService(
+      await productsAggregateService(productsAggregate),
+      { limit: _limit, page: _page }
+    );
+
+    if (!products || products.docs.length === 0) {
+      products = { status: "error" };
+      req.logger.error("Product not found");
+      return res.status(404).send({ message: "Products not found" });
     }
 
     products.payload = products.docs;
 
     delete products.docs;
-
-    if (!products) {
-      products = { status: "error" };
-      req.logger.error('Product not found')
-      return res.status(404).send({ message: "Products not found" });
-    }
 
     products.status = "success";
 
@@ -93,7 +60,9 @@ export const getProducts = async (req, res) => {
 
     res.status(200).send(products);
   } catch (error) {
-    req.logger.error(error)
+    req.logger.error(error);
+
+    console.error(error);
 
     res.status(500).send({ error: "Internal server error" });
   }
@@ -104,7 +73,7 @@ export const getProduct = async (req, res) => {
     const { pid } = req.params;
     const product = await findProductByIdService(pid);
     if (!product) {
-      req.logger.error('Product not found')
+      req.logger.error("Product not found");
       return res.status(404).send({ error: "Product not found" });
     }
     res.status(200).send(product);
@@ -119,17 +88,17 @@ export const postProduct = async (req, res) => {
     try {
       const existing = await findOneProductService({ code: product.code });
       if (existing) {
-        req.logger.warning('The product already exists')
+        req.logger.warning("The product already exists");
         return res.status(409).send({ message: "The product already exists" });
       }
       await createProductService({ ...product, available: true });
-      res.status(201).send({ message: "Product added" });
+      return res.status(201).send({ message: "Product added" });
     } catch (error) {
-      req.logger.error(error)
-      res.status(400).send({ error: "All fields are required" });
+      req.logger.error(error);
+      return res.status(400).send({ error: "All fields are required" });
     }
   } catch (error) {
-    req.logger.error(error)
+    req.logger.error(error);
     res.status(500).send({ error: "Internal server error" });
   }
 };
@@ -142,11 +111,11 @@ export const putProduct = async (req, res) => {
       await updateOneProductService({ _id: pid }, product);
       res.status(201).send({ message: "Product updated" });
     } catch (error) {
-      req.logger.error(error)
+      req.logger.error(error);
       res.status(404).send({ error: "Product not found" });
     }
   } catch (error) {
-    req.logger.error(error)
+    req.logger.error(error);
     res.status(500).send({ error: "Internal server error" });
   }
 };
@@ -158,11 +127,11 @@ export const deleteProduct = async (req, res) => {
       await deleteOneProductService({ _id: pid });
       res.send({ message: "Product deleted" });
     } catch (error) {
-      req.logger.error(error)
+      req.logger.error(error);
       res.status(404).send({ error: "Product not found" });
     }
   } catch (error) {
-    req.logger.error(error)
+    req.logger.error(error);
     res.status(500).send({ error: "Internal server error" });
   }
 };
@@ -173,10 +142,9 @@ export const getMockingProducts = (req, res) => {
 
     const products = getAllMockingProductsService(quantity);
 
-    res.send({products: [...products]});
-
+    res.send({ products: [...products] });
   } catch (error) {
-    req.logger.error(error)
+    req.logger.error(error);
     res.status(404).send({ message: "Products not found" });
   }
 };

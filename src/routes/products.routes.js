@@ -19,14 +19,14 @@ productsRouter.get("/:pid", getProduct);
 productsRouter.post(
   "/",
   passport.authenticate("current", { session: false }),
-  authorization("admin"),
+  authorization(["admin","premium"]),
   postProduct
 );
 
 productsRouter.put(
   "/:pid",
   passport.authenticate("current", { session: false }),
-  authorization("admin"),
+  authorization(["admin"]),
   putProduct
 );
 

@@ -18,7 +18,7 @@ export const validateUserDeleteProduct = async (req, res, next) => {
 
   const { pid } = req.params;
   
-  const product = findProductByIdService(pid);
+  const product = await findProductByIdService(pid);
 
   switch (user.role) {
     case "admin":

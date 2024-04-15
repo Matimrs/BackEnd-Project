@@ -2,3 +2,12 @@
 {"level":"error"}
 {"level":"error"}
 {"kind":"string","message":"Cast to string failed for value \"Promise { <pending> }\" (type Promise) at path \"password\"","name":"CastError","path":"password","reason":null,"stringValue":"\"Promise { <pending> }\"","value":{},"valueType":"Promise"}
+{"level":"error"}
+{"level":"error"}
+{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
+{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}

@@ -42,7 +42,7 @@ export const validateProductOwner = async (req, res, next) => {
 
   const product = await findProductByIdService(pid);
 
-  if(product.owner === req.user.id) return res.status(400).send({ message: "A created product cannot be purchased by the creator" });
+  if(product.owner !== "admin" && product.owner === req.user.id) return res.status(400).send({ message: "A created product cannot be purchased by the creator" });
 
   next();
 };

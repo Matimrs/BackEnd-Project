@@ -29,7 +29,7 @@ cartsRouter.get("/:cid", getCart);
 cartsRouter.post(
   "/:cid/product/:pid",
   passport.authenticate("current", { session: false }), ///
-  authorization("user"),
+  authorization(["user","premium"]),
   validateProductOwner,
   postProductToCart
 );
