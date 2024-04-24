@@ -1,0 +1,89 @@
+paths:
+  /api/carts:
+    get:
+      summary: Get all carts
+      description: Retrieves all available carts.
+      responses:
+        '200':
+          description: List of carts.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+      post:
+        summary: Create a new cart
+        description: Creates a new cart in the system.
+        responses:
+          '201':
+            description: Cart created successfully.
+  /api/carts/{id}:
+    get:
+      summary: Get a cart by ID
+      description: Retrieves a cart by its ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the cart to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Data of the requested cart.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+    put:
+      summary: Update a cart by ID
+      description: Updates an existing cart by its ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the cart to update.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+      responses:
+        '201':
+          description: Cart updated successfully.
+    delete:
+      summary: Delete a cart by ID
+      description: Deletes an existing cart by its ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the cart to delete.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cart deleted successfully.
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        products:
+          type: array
+          description: List of products in the cart.
+          items:
+            type: object
+            properties:
+              product:
+                type: string
+                description: ID of the product.
+              quantity:
+                type: number
+                description: Quantity of the product in the cart.
+      required:
+        - products

@@ -1,15 +1,18 @@
 import express from "express";
-import config from "./config/config.js";
-import productsRouter from "./routes/products.routes.js";
-import cartsRouter from "./routes/carts.routes.js";
+import passport from "passport";
+import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
 import handlebars from "express-handlebars";
 import mongoose from "mongoose";
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUIExpress from 'swagger-ui-express';
+
+import config from "./config/config.js";
+import productsRouter from "./routes/products.routes.js";
+import cartsRouter from "./routes/carts.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import sessionRouter from "./routes/session.routes.js";
 import { initializePassport } from "./config/passport.config.js";
-import passport from "passport";
-import cookieParser from "cookie-parser";
 import {
   createProductService,
   deleteOneProductService,
@@ -21,12 +24,15 @@ import {
 } from "./dao/mongo/services/message.service.js";
 import { addLogger } from "./utils/logger.js";
 import userRouter from "./routes/users.routes.js";
+import { swaggerConfig } from "./config/swagger.config.js";
 
 const PORT = +config.port;
 const app = express();
 const httpServer = app.listen(PORT, () => {
   console.log(`Esperando entrada en puerto: ${PORT}`);
 });
+
+const swaggerSpecificacions = swaggerJSDoc(swaggerConfig);
 
 const io = new Server(httpServer);
 
@@ -54,7 +60,8 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/", viewsRouter);
 app.use("/api/session", sessionRouter);
-app.use("api/users", userRouter)
+app.use("/api/users", userRouter)
+app.use("/api/docs", swaggerUIExpress.serve, swaggerUIExpress.setup(swaggerSpecificacions))
 
 mongoose.connect(config.connectMongo);
 
