@@ -92,3 +92,6 @@ io.on("connection", async (socket) => {
     io.emit("chat", { messages });
   });
 });
+
+
+export { app }
