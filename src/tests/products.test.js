@@ -20,13 +20,14 @@ describe("Products router", () => {
   });
 
   describe("GET /", () => {
-    it("Deberia devolver un conjunto de productos", (done) => {
+    it("Deberia devolver un conjunto de productos en payload", (done) => {
       request(app)
         .get("/api/products")
         .set("Cookie", [authToken]) // Establecer el token de autenticación en la solicitud
         .expect(200)
         .end((err, res) => {
           if (err) return done(err);
+          expect(res.body.payload).to.be.an("array");
           done();
         });
     });
@@ -40,6 +41,17 @@ describe("Products router", () => {
         .expect(200)
         .end((err, res) => {
           if (err) return done(err);
+  
+          // Verificar que la respuesta tenga las propiedades esperadas
+          expect(res.body).to.have.property("_id").that.is.a("string");
+          expect(res.body).to.have.property("title").that.is.a("string");
+          expect(res.body).to.have.property("description").that.is.a("string");
+          expect(res.body).to.have.property("code").that.is.a("string");
+          expect(res.body).to.have.property("price").that.is.a("number");
+          expect(res.body).to.have.property("stock").that.is.a("number");
+          expect(res.body).to.have.property("category").that.is.a("string");
+          expect(res.body).to.have.property("owner").that.is.a("string");
+  
           done();
         });
     });
@@ -61,6 +73,7 @@ describe("Products router", () => {
         .expect(201)
         .end((err, res) => {
           if (err) return done(err);
+          expect(res.body.message).equal.to("Product added")
           done();
         });
     });
@@ -75,6 +88,7 @@ describe("Products router", () => {
         .expect(201)
         .end((err, res) => {
           if (err) return done(err);
+          expect(res.body.message).equal.to("Product updated")
           done();
         });
     });
@@ -88,6 +102,7 @@ describe("Products router", () => {
         .expect(200)
         .end((err, res) => {
           if (err) return done(err);
+          expect(res.body.message).equal.to("Product deleted")
           done();
         });
     });
