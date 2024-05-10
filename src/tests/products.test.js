@@ -41,7 +41,7 @@ describe("Products router", () => {
         .expect(200)
         .end((err, res) => {
           if (err) return done(err);
-  
+
           // Verificar que la respuesta tenga las propiedades esperadas
           expect(res.body).to.have.property("_id").that.is.a("string");
           expect(res.body).to.have.property("title").that.is.a("string");
@@ -51,7 +51,7 @@ describe("Products router", () => {
           expect(res.body).to.have.property("stock").that.is.a("number");
           expect(res.body).to.have.property("category").that.is.a("string");
           expect(res.body).to.have.property("owner").that.is.a("string");
-  
+
           done();
         });
     });
@@ -73,7 +73,7 @@ describe("Products router", () => {
         .expect(201)
         .end((err, res) => {
           if (err) return done(err);
-          expect(res.body.message).equal.to("Product added")
+          expect(res.body.message).equal("Product added");
           done();
         });
     });
@@ -88,7 +88,7 @@ describe("Products router", () => {
         .expect(201)
         .end((err, res) => {
           if (err) return done(err);
-          expect(res.body.message).equal.to("Product updated")
+          expect(res.body.message).equal("Product updated");
           done();
         });
     });
@@ -102,7 +102,7 @@ describe("Products router", () => {
         .expect(200)
         .end((err, res) => {
           if (err) return done(err);
-          expect(res.body.message).equal.to("Product deleted")
+          expect(res.body.message).equal("Product deleted");
           done();
         });
     });

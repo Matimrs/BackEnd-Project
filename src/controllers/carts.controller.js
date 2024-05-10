@@ -191,7 +191,7 @@ export const putCart = async (req, res) => {
   }
 };
 
-export const postPurchase = async (req, res) => {
+export const getPurchase = async (req, res) => {
   try {
     const { cid } = req.params;
 
@@ -232,10 +232,12 @@ export const postPurchase = async (req, res) => {
     await ticketModel.create({ amount, purchaser });
 
     if (!valid) {
-      return res.send(insufficientStock);
+      return res.status(400).send({insufficientStockProducts: insufficientStock,
+        message: 'Insufficient stock'
+      });
     }
 
-    res.send({ message: "Successful purchase" });
+    res.status(200).send({ message: "Successful purchase" });
   } catch (error) {
     req.logger.error(error)
     res.status(500).send({ error: "Internal server error" });

@@ -13,7 +13,7 @@ import {
   postProductToCart,
   putProductFromCart,
   putCart,
-  postPurchase,
+  getPurchase,
 } from "../controllers/carts.controller.js";
 import passport from "passport";
 import { authorization } from "../middlewares/auth.js";
@@ -29,7 +29,7 @@ cartsRouter.get("/:cid", getCart);
 cartsRouter.post(
   "/:cid/product/:pid",
   passport.authenticate("current", { session: false }), ///
-  authorization(["user","premium"]),
+  authorization(["user", "premium"]),
   validateProductOwner,
   postProductToCart
 );
@@ -40,13 +40,18 @@ cartsRouter.delete("/:cid", deleteProductsFromCart);
 
 cartsRouter.put("/:cid/product/:pid", putProductFromCart);
 
-cartsRouter.put("/:cid", validateProducts, putCart);
+cartsRouter.put(
+  "/:cid",
+  passport.authenticate("current", { session: false }),
+  validateProducts,
+  putCart
+);
 
 cartsRouter.get(
   "/:cid/purchase",
   passport.authenticate("current", { session: false }),
   validateCart,
-  postPurchase
+  getPurchase
 );
 
 export default cartsRouter;

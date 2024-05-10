@@ -25,3 +25,4 @@
 {"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
 {"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
 {"level":"error","message":"Cart not found"}
+{"_message":"tickets validation failed","errors":{"amount":{"kind":"Number","message":"Cast to Number failed for value \"NaN\" (type number) at path \"amount\"","name":"CastError","path":"amount","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"NaN\"","value":null,"valueType":"number"}},"level":"error","message":"tickets validation failed: amount: Cast to Number failed for value \"NaN\" (type number) at path \"amount\"","name":"ValidationError"}
