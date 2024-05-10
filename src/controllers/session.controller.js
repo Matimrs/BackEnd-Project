@@ -34,7 +34,7 @@ export const postLogin = async (req, res) => {
         maxAge: 60 * 60 * 168,
         httpOnly: true,
       })
-      .status(200)
+      .status(302)
       .redirect("/");
   } catch (error) {
     req.logger.error(error);

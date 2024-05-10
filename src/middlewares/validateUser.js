@@ -14,23 +14,25 @@ export const validateRegister = (req, res, next) => {
 };
 
 export const validateUserDeleteProduct = async (req, res, next) => {
-  const user = await findUserByIDService(req.user.id);
+  try {
+    const user = await findUserByIDService(req.user.id);
+    const { pid } = req.params;
+    const product = await findProductByIdService(pid);
 
-  const { pid } = req.params;
-  
-  const product = await findProductByIdService(pid);
-
-  switch (user.role) {
-    case "admin":
-      next();
-      break;
-    case "premium":
-      if(product.owner !== req.user.id)
-      next();
-      break;
-    default:
-      break;
+    switch (user.role) {
+      case "admin":
+        return next();
+      case "premium":
+        if (product.owner === req.user.id) {
+          return next();
+        }
+        break;
+      default:
+        break;
+    }
+    return res.status(401).send({ message: "Unauthorized" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({ error: "Internal server error" });
   }
-
-  return res.status(401).send({message: "Unathorized"});
 };

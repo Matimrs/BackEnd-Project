@@ -164,7 +164,6 @@ export const initializePassport = () => {
     new JWTStrategy(
       {
         jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-        //.env
         secretOrKey: config.tokenSecret,
       },
       async (payload, done) => {
@@ -172,6 +171,7 @@ export const initializePassport = () => {
           const user = await findUserByIDService(payload.id);
           return done(null, user);
         } catch (error) {
+          console.error(error);
           return done(error, false);
         }
       }
