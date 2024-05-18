@@ -28,6 +28,7 @@ export const postRegister = async (req, res) => {
 
 export const postLogin = async (req, res) => {
   try {
+    const updatedUser = await findUserByIDAndUpdateService(req.user._id, {last_connection: new Date()});
     const token = generateToken(req.user);
     return res
       .cookie(COOKIE_TOKEN, token, {
@@ -45,6 +46,7 @@ export const postLogin = async (req, res) => {
 
 export const postLogout = async (req, res) => {
   try {
+    const updatedUser = await findUserByIDAndUpdateService(req.user._id, {last_connection: new Date()});
     res.cookie(COOKIE_TOKEN, "", {
       expires: new Date(0),
     });

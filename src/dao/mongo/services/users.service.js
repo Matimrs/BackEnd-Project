@@ -4,6 +4,7 @@ import {
   findUserByID,
   findUserByIDAndUpdate,
   findUsers,
+  updateUserDocuments,
   updateUserRole,
 } from "../persistence/users.mongo.js";
 
@@ -29,4 +30,8 @@ export const updateUserRoleService = () => {
 
 export const findUserByIDAndUpdateService = (id, userUpdates) => {
   return findUserByIDAndUpdate(id,userUpdates);
+}
+
+export const updateUserDocumentsService = (id,userData) => {
+  return updateUserDocuments(id,userData);
 }

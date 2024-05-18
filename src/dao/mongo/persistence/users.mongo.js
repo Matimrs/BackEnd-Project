@@ -25,5 +25,9 @@ export const updateUserRole = async (uid) => {
 };
 
 export const findUserByIDAndUpdate = async (id, userUpdates) => {
-    return await userModel.findByIdAndUpdate(id, userUpdates)
-}
+  return await userModel.findByIdAndUpdate(id, userUpdates);
+};
+
+export const updateUserDocuments = async (id, userData) => {
+  return await userModel.findByIdAndUpdate(id, userData, { new: true });
+};
