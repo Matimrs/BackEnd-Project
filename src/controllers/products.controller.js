@@ -1,3 +1,5 @@
+import { sendDeletionProductEmail } from "../config/mailer.config.js";
+import { findUserByID } from "../dao/mongo/persistence/users.mongo.js";
 import {
   createProductService,
   deleteOneProductService,
@@ -25,7 +27,9 @@ export const getProducts = async (req, res) => {
       match = { $match: { category: query } };
     }
 
-    const productsAggregate = match ? [match, { $sort: { price: _sort } }] : [{ $sort: { price: _sort } }];
+    const productsAggregate = match
+      ? [match, { $sort: { price: _sort } }]
+      : [{ $sort: { price: _sort } }];
 
     const products = await productsAggregatePaginateService(
       await productsAggregateService(productsAggregate),
@@ -60,9 +64,9 @@ export const getProducts = async (req, res) => {
 
     res.status(200).send(products);
   } catch (error) {
-    req.logger.error(error);
-
     console.error(error);
+    
+    req.logger.error(error);
 
     res.status(500).send({ error: "Internal server error" });
   }
@@ -123,13 +127,26 @@ export const putProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try {
     const { pid } = req.params;
-    try {
-      await deleteOneProductService({ _id: pid });
-      res.send({ message: "Product deleted" });
-    } catch (error) {
-      req.logger.error(error);
-      res.status(404).send({ error: "Product not found" });
+
+    const product = findProductByIdService(pid);
+
+    if (!product) return res.status(404).send({ error: "Product not found" });
+
+    const ownerID = product.owner;
+
+    await deleteOneProductService({ _id: pid });
+
+    if (ownerID !== "admin") {
+      const owner = await findUserByID(ownerID);
+      await sendDeletionProductEmail(
+        owner.email,
+        owner.first_name,
+        product.title,
+        product.code
+      );
     }
+
+    res.send({ message: "Product deleted" });
   } catch (error) {
     req.logger.error(error);
     res.status(500).send({ error: "Internal server error" });

@@ -1,7 +1,7 @@
 import config from "../config/config.js";
 import { generateToken } from "../config/jwt.config.js";
 import { UserDTO } from "../dao/dto/user.dto.js";
-import { findOneUserService, findUserByIDAndUpdateService } from "../dao/mongo/services/users.service.js";
+import { findOneUserService, findUserByIDAndUpdateService, findUserByIDService } from "../dao/mongo/services/users.service.js";
 import crypto from "crypto";
 import { transporter } from "../config/mailer.config.js";
 import { createOneTokenService, findOneTokenAndUpdateService, findOneTokenService } from "../dao/mongo/services/tokens.service.js";

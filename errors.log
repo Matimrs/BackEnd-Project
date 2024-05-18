@@ -26,3 +26,28 @@
 {"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
 {"level":"error","message":"Cart not found"}
 {"_message":"tickets validation failed","errors":{"amount":{"kind":"Number","message":"Cast to Number failed for value \"NaN\" (type number) at path \"amount\"","name":"CastError","path":"amount","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"NaN\"","value":null,"valueType":"number"}},"level":"error","message":"tickets validation failed: amount: Cast to Number failed for value \"NaN\" (type number) at path \"amount\"","name":"ValidationError"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\"","name":"CastError","path":"_id","reason":{},"stringValue":"\"[object Object]\"","value":"[object Object]","valueType":"string"}
+{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\"","name":"CastError","path":"_id","reason":{},"stringValue":"\"[object Object]\"","value":"[object Object]","valueType":"string"}
+{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"carts\"","name":"CastError","path":"_id","reason":{},"stringValue":"\"[object Object]\"","value":"[object Object]","valueType":"string"}
+{"level":"error"}
+{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"carts\"","name":"CastError","path":"_id","reason":{},"stringValue":"\"undefined\"","value":"undefined","valueType":"string"}
+{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"carts\"","name":"CastError","path":"_id","reason":{},"stringValue":"\"undefined\"","value":"undefined","valueType":"string"}
+{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"carts\"","name":"CastError","path":"_id","reason":{},"stringValue":"\"undefined\"","value":"undefined","valueType":"string"}
+{"level":"error"}
+{"level":"error"}

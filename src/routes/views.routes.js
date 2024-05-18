@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { existingUser } from "../middlewares/auth.js";
+import { authorization, existingUser } from "../middlewares/auth.js";
 import passport from "passport";
 import {
   getCartView,
@@ -13,6 +13,7 @@ import {
   getRealTimeProductsView,
   getRegisterView,
   getRestorePasswordView,
+  getUserView,
 } from "../controllers/views.controller.js";
 import { getMockingProducts } from "../controllers/products.controller.js";
 
@@ -49,3 +50,5 @@ viewsRouter.get("/mockingproducts", getMockingProducts);
 viewsRouter.get("/loggertest", getLoggerTest);
 
 viewsRouter.get("/restorePassword/:token", getRestorePasswordView)
+
+viewsRouter.get("/user/:uid", passport.authenticate("current", { session: false }), authorization(["admin"]), getUserView)

@@ -85,17 +85,34 @@ export const getCartView = async (req, res) => {
 
 export const getProductsView = async (req, res) => {
   try {
-    const { page } = req.query;
+    const { limit, page, sort, query } = req.query;
+
+    const _limit = limit ? +limit : 10;
 
     const _page = page ? +page : 1;
 
+    const _sort = sort ? +sort : 1;
+
+    let match = null;
+
+    if (query) {
+      match = { $match: { category: query } };
+    }
+
+    const productsAggregate = match
+      ? [match, { $sort: { price: _sort } }]
+      : [{ $sort: { price: _sort } }];
+
     const products = await productsAggregatePaginateService(
-      await productsAggregateService(),
-      { page: _page }
+      await productsAggregateService(productsAggregate),
+      { limit: _limit, page: _page }
     );
 
-    if (!products)
+    if (!products || products.docs.length === 0) {
+      products = { status: "error" };
+      req.logger.error("Product not found");
       return res.status(404).send({ message: "Products not found" });
+    }
 
     res.render("products", products);
   } catch (error) {
@@ -119,5 +136,20 @@ export const getLoggerTest = (req, res) => {
 
 export const getRestorePasswordView = (req, res) => {
   const { token } = req.params;
-  res.render("restorePassword", {token} );
+  res.render("restorePassword", { token });
+};
+
+export const getUserView = async (req, res) => {
+  try {
+    const { uid } = req.params;
+
+    const user = await findUserByIDService(uid);
+
+    res.render("user", user )
+
+  } catch (error) {
+    req.logger.error(error);
+
+    res.status(500).send(error);
+  }
 };

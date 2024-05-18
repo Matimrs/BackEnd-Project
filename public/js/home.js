@@ -18,23 +18,29 @@ logout.addEventListener("click", async () => {
 const seeCart = document.getElementById("seeCart");
 
 seeCart.addEventListener("click", async () => {
-  const response = await fetch("http://localhost:8080/api/session/currentCart", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  try {
+    const response = await fetch(
+      "http://localhost:8080/api/session/currentCart",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-  const cid = await response.json();
+    const data = await response.json();
 
-  //const email = data.email;
+    const cid = data;
 
-  const response2 = await fetch(`http://localhost:8080/carts/${cid}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+    //const email = data.email;
+    
+ 
 
   window.location.href = `http://localhost:8080/carts/${cid}`;
+  
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred");
+  }
 });
