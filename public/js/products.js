@@ -62,7 +62,7 @@ const seeCart = document.getElementById("seeCart");
 seeCart.addEventListener("click", async () => {
   try {
     const response = await fetch(
-      "http://localhost:8080/api/session/currentCart",
+      "/api/session/currentCart",
       {
         method: "GET",
         headers: {
@@ -79,7 +79,7 @@ seeCart.addEventListener("click", async () => {
     
  
 
-  window.location.href = `http://localhost:8080/carts/${cid}`;
+  window.location.href = `/carts/${cid}`;
   
   } catch (error) {
     console.error("Error:", error);
