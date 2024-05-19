@@ -51,11 +51,11 @@ export const postLogout = async (req, res) => {
     res.cookie(COOKIE_TOKEN, "", {
       expires: new Date(0),
     });
-    res.send({ redirect: "http://localhost:8080/login" });
+    res.send({ redirect: "/login" });
   } catch (error) {
     req.logger.error(error);
 
-    res.status(500).send({ error: "Internal server error", redirect: "http://localhost:8080/" });
+    res.status(500).send({ error: "Internal server error", redirect: "/" });
   }
 };
 
