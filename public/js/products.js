@@ -5,7 +5,7 @@ async function addToCart(event) {
 
   try {
     // Se recupera la información del usuario dentro del controlador de clic
-    const response = await fetch(`http://localhost:8080/session/current`, {
+    const response = await fetch(`http://localhost:8080/api/session/current`, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -25,14 +25,15 @@ async function addToCart(event) {
     );
 
     if (!result.ok) { // Verifica si la respuesta es exitosa
-      const error = await result.text(); // Obtiene el mensaje de error de la respuesta
-      alert(`Error al agregar producto: ${error}`);
+      const data = await result.json(); 
+      const error = data.message;
+      alert(`Error adding product: ${error}`);
     } else {
-      alert("¡Producto agregado exitosamente!");
+      alert("Product added successfully!");
     }
   } catch (error) {
-    console.error("Error al agregar producto:", error);
-    alert("Ocurrió un error. Inténtalo de nuevo más tarde."); // Mensaje amigable para el usuario
+    console.error("Error adding product:", error);
+    alert("An error occurred. Try again later.");
   }
 }
 
@@ -40,3 +41,48 @@ async function addToCart(event) {
 for (const btn of buttons) {
   btn.addEventListener("click", addToCart);
 }
+
+const logout = document.getElementById("logout");
+
+logout.addEventListener("click", async () => {
+  const response = await fetch("http://localhost:8080/api/session/logout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  window.location.href = data.redirect;
+});
+
+const seeCart = document.getElementById("seeCart");
+
+seeCart.addEventListener("click", async () => {
+  try {
+    const response = await fetch(
+      "http://localhost:8080/api/session/currentCart",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    const cid = data;
+
+    //const email = data.email;
+    
+ 
+
+  window.location.href = `http://localhost:8080/carts/${cid}`;
+  
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred");
+  }
+});

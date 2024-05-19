@@ -20,6 +20,8 @@ userRouter.post(
 
 userRouter.get("/", getUsers);
 
+userRouter.get("/:uid",);
+
 userRouter.delete("/", deleteAllInactiveUsers);
 
 userRouter.delete("/:id", deleteOneUser);

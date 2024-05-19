@@ -25,6 +25,7 @@ import {
 import { addLogger } from "./utils/logger.js";
 import userRouter from "./routes/users.routes.js";
 import { swaggerConfig } from "./config/swagger.config.js";
+import path from "path";
 
 const PORT = +config.port;
 const app = express();

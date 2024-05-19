@@ -1,6 +1,6 @@
 const btnPurchase = document.getElementById("btnPurchase");
 
-/*btnPurchase.addEventListener("click", async () => {
+btnPurchase.addEventListener("click", async () => {
     const response = await fetch("http://localhost:8080/api/session/currentCart", {
     method: "GET",
     headers: {
@@ -23,5 +23,5 @@ const btnPurchase = document.getElementById("btnPurchase");
 
   console.log(message);
 
-  //location.reload()
-});*/
+  location.reload()
+});

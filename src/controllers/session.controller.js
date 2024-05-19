@@ -46,6 +46,7 @@ export const postLogin = async (req, res) => {
 
 export const postLogout = async (req, res) => {
   try {
+    console.log(req.user);
     const updatedUser = await findUserByIDAndUpdateService(req.user._id, {last_connection: new Date()});
     res.cookie(COOKIE_TOKEN, "", {
       expires: new Date(0),
@@ -54,7 +55,7 @@ export const postLogout = async (req, res) => {
   } catch (error) {
     req.logger.error(error);
 
-    res.status(500).send({ error: "Internal server error" });
+    res.status(500).send({ error: "Internal server error", redirect: "http://localhost:8080/" });
   }
 };
 

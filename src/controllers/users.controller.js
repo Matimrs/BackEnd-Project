@@ -1,6 +1,7 @@
 import {
   deleteInactiveUsersService,
   deleteUserService,
+  findOneUserService,
   findUserByIDService,
   getAllUsersService,
   updateUserDocumentsService,
@@ -83,6 +84,17 @@ export const getUsers = async (req, res) => {
   }
 };
 
+export const getUser = async (req, res) => {
+  try {
+    const { uid } = req.params;
+
+    const user = await findOneUserService()
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal server error" });
+  }
+};
+
 export const deleteAllInactiveUsers = async (req, res) => {
   try {
     const deletedCount = await deleteInactiveUsersService();
@@ -100,7 +112,7 @@ export const deleteOneUser = async (req, res) => {
 
     const deletedUser = await deleteUserService(id);
 
-    if(!deletedUser) res.status(404).send({message: 'User not found'})
+    if (!deletedUser) res.status(404).send({ message: "User not found" });
 
     res.send({ message: "User successfully deleted" });
   } catch (error) {

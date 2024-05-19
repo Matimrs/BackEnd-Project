@@ -34,7 +34,10 @@ sessionRouter.post(
   postLogin
 );
 
-sessionRouter.post("/logout", postLogout);
+sessionRouter.post("/logout",passport.authenticate("current", {
+  failureRedirect: "/failLogin",
+  session: false,
+}), postLogout);
 
 sessionRouter.get(
   "/github",

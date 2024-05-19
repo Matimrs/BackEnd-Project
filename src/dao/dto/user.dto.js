@@ -7,6 +7,6 @@ export class UserDTO {
     this.role = role;
   }
   getCurrent(){
-    return ({name: this.name, email: this.email, role: this.role});
+    return ({name: this.name, email: this.email, role: this.role, cart: this.cart});
   }
 }
