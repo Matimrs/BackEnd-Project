@@ -27,4 +27,5 @@ export default {
   passwordGitHub: process.env.GITHUB_PASSWORD,
   sessionAPI: API_SESSION,
   passwordGoogle: process.env.GOOGLE_PASSWORD,
+  baseUrl: process.env.BASE_URL
 };

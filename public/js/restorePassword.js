@@ -1,3 +1,5 @@
+const rootURL = `${window.location.protocol}//${window.location.host}/`;
+
 const passExists = localStorage.getItem("password");
 
 const emailInpt = document.getElementById("email");
@@ -37,7 +39,7 @@ restoreForm.addEventListener("submit", async (event) => {
   } else {
     const token = document.getElementById("token").textContent;
     const response = await fetch(
-      `http://localhost:8080/api/session/restorePassword/${token}`,
+      `${rootURL}/api/session/restorePassword/${token}`,
       {
         method: "POST",
         headers: {
@@ -53,6 +55,6 @@ restoreForm.addEventListener("submit", async (event) => {
       alert("Your password has been reset");
     }
 
-    window.location.href = "http://localhost:8080/login";
+    window.location.href = `${rootURL}/login`;
   }
 });

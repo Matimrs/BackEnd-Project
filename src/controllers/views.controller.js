@@ -5,12 +5,15 @@ import {
   productsAggregatePaginateService,
   productsAggregateService,
 } from "../dao/mongo/services/products.service.js";
+import config from "../config/config.js";
+
+const BASE_URL = config.baseUrl;
 
 export const getHomeView = async (req, res) => {
   try {
     const user = await findUserByIDService(req.user.id);
     const products = await findProductsService();
-    res.render("home", { products, user });
+    res.render("home", { products, user , BASE_URL});
   } catch (error) {
     req.logger.error(error);
     res.redirect("/login");

@@ -1,3 +1,5 @@
+const rootURL = `${window.location.protocol}//${window.location.host}/`;
+
 const buttons = document.getElementsByClassName("addToCart");
 
 async function addToCart(event) {
@@ -5,7 +7,7 @@ async function addToCart(event) {
 
   try {
     // Se recupera la información del usuario dentro del controlador de clic
-    const response = await fetch(`http://localhost:8080/api/session/current`, {
+    const response = await fetch(`${rootURL}/api/session/current`, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -14,7 +16,7 @@ async function addToCart(event) {
     const user = await response.json();
 
     const result = await fetch(
-      `http://localhost:8080/api/carts/${user.cart}/product/${btn.id}`,
+      `${rootURL}/api/carts/${user.cart}/product/${btn.id}`,
       {
         body: JSON.stringify({}), // Suponiendo que tiene un cuerpo vacío para agregar productos
         method: "post",
@@ -45,7 +47,7 @@ for (const btn of buttons) {
 const logout = document.getElementById("logout");
 
 logout.addEventListener("click", async () => {
-  const response = await fetch("http://localhost:8080/api/session/logout", {
+  const response = await fetch(`${rootURL}/api/session/logout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -62,7 +64,7 @@ const seeCart = document.getElementById("seeCart");
 seeCart.addEventListener("click", async () => {
   try {
     const response = await fetch(
-      "/api/session/currentCart",
+      `${rootURL}/api/session/currentCart`,
       {
         method: "GET",
         headers: {
@@ -79,7 +81,7 @@ seeCart.addEventListener("click", async () => {
     
  
 
-  window.location.href = `/carts/${cid}`;
+  window.location.href = `${rootURL}/carts/${cid}`;
   
   } catch (error) {
     console.error("Error:", error);

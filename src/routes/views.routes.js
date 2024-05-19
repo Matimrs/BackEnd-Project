@@ -17,6 +17,7 @@ import {
 } from "../controllers/views.controller.js";
 import { getMockingProducts } from "../controllers/products.controller.js";
 
+
 export const viewsRouter = Router();
 
 viewsRouter.get(

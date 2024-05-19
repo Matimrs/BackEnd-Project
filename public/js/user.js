@@ -1,3 +1,5 @@
+const rootURL = `${window.location.protocol}//${window.location.host}/`;
+
 const btnChangeRole = document.getElementById("btnChangeRole");
 
 const btnDelete = document.getElementById("btnDelete");
@@ -7,7 +9,7 @@ const id = document.getElementById("id").textContent;
 btnChangeRole.addEventListener("click", async () => {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/users/premium/${id}`,
+      `${rootURL}/api/users/premium/${id}`,
       {
         method: "PUT",
         headers: {
@@ -30,7 +32,7 @@ btnChangeRole.addEventListener("click", async () => {
 btnDelete.addEventListener("click", async () => {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/users/${id}`,
+      `${rootURL}/api/users/${id}`,
       {
         method: "DELETE",
         headers: {
