@@ -9,7 +9,7 @@ const id = document.getElementById("id").textContent;
 btnChangeRole.addEventListener("click", async () => {
   try {
     const response = await fetch(
-      `${rootURL}/api/users/premium/${id}`,
+      `${rootURL}api/users/premium/${id}`,
       {
         method: "PUT",
         headers: {
@@ -32,7 +32,7 @@ btnChangeRole.addEventListener("click", async () => {
 btnDelete.addEventListener("click", async () => {
   try {
     const response = await fetch(
-      `${rootURL}/api/users/${id}`,
+      `${rootURL}api/users/${id}`,
       {
         method: "DELETE",
         headers: {

@@ -39,7 +39,7 @@ restoreForm.addEventListener("submit", async (event) => {
   } else {
     const token = document.getElementById("token").textContent;
     const response = await fetch(
-      `${rootURL}/api/session/restorePassword/${token}`,
+      `${rootURL}api/session/restorePassword/${token}`,
       {
         method: "POST",
         headers: {

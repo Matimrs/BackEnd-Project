@@ -1,3 +1,5 @@
+const rootURL = `${window.location.protocol}//${window.location.host}/`;
+
 const inptEmail = document.getElementById("email");
 const inptPassword = document.getElementById("password");
 
@@ -21,7 +23,7 @@ const restoreBtn = document.getElementById("restoreBtn");
 restoreBtn.addEventListener("click", async () => {
   try {
     const response = await fetch(
-      "http://localhost:8080/api/session/restorePassword",
+      `${rootURL}api/session/restorePassword`,
       {
         method: "POST",
         headers: {

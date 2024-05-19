@@ -3,7 +3,7 @@ const rootURL = `${window.location.protocol}//${window.location.host}/`;
 const btnPurchase = document.getElementById("btnPurchase");
 
 btnPurchase.addEventListener("click", async () => {
-    const response = await fetch(`${rootURL}/api/session/currentCart`, {
+    const response = await fetch(`${rootURL}api/session/currentCart`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -14,7 +14,7 @@ btnPurchase.addEventListener("click", async () => {
 
   console.log(cid);
 
-  const response2 = await fetch(`${rootURL}/api/carts/${cid}/purchase`, {
+  const response2 = await fetch(`${rootURL}api/carts/${cid}/purchase`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

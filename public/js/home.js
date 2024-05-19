@@ -5,7 +5,7 @@ const rootURL = `${window.location.protocol}//${window.location.host}/`;
 const logout = document.getElementById("logout");
 
 logout.addEventListener("click", async () => {
-  const response = await fetch(`${rootURL}/api/session/logout`, {
+  const response = await fetch(`${rootURL}api/session/logout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,7 +22,7 @@ const seeCart = document.getElementById("seeCart");
 seeCart.addEventListener("click", async () => {
   try {
     const response = await fetch(
-      `${rootURL}/api/session/currentCart`,
+      `${rootURL}api/session/currentCart`,
       {
         method: "GET",
         headers: {
@@ -39,7 +39,7 @@ seeCart.addEventListener("click", async () => {
     
  
 
-  window.location.href = `${rootURL}/carts/${cid}`;
+  window.location.href = `${rootURL}carts/${cid}`;
   
   } catch (error) {
     console.error("Error:", error);
