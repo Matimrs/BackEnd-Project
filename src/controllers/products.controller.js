@@ -15,7 +15,7 @@ export const getProducts = async (req, res) => {
   try {
     const { limit, page, sort, query } = req.query;
 
-    const _limit = limit ? +limit : 10;
+    const _limit = limit ? +limit : 5;
 
     const _page = page ? +page : 1;
 

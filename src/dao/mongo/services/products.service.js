@@ -11,7 +11,6 @@ import {
 } from "../persistence/products.mongo.js";
 
 export const productsAggregateService = (array) => {
-  console.log(array);
   return productsAggregate(array);
 };
 

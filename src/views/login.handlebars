@@ -1,21 +1,21 @@
 
 
-<div class="flex-c-c-c container">
+<div class="flex-c-c-c container-dark">
     <div id="form" class="flex-c-sb-c bg-light">
         <form action="/api/session/login" method="post" class="flex-c-sb-c">
             <label for="email">Email</label>
-            <input id="email" placeholder="Email" type="email" name="email">
+            <input id="email" type="email" name="email">
             <label for="password">Password</label>
-            <input id="password" placeholder="Password" type="password" name="password">
-            <a id="restoreBtn" class="text">Restore password</a>
-            <button type="submit" class="btn">Log in</button>
+            <input id="password"  type="password" name="password">
+            <a id="restoreBtn">Restore password</a>
+            <button type="submit" class="btn-contained-dark">Log in</button>
 
         </form>
 
         <div id="down" class="flex-c-sb-c">
-            <a href="/api/session/github"><button>Log in with GitHub</button></a>
+            <p class="text" >Log in with:</p><button class="btn-lined-dark"><a href="/api/session/github">GitHub</a></button>
             <p class="text">You do not have an account?</p>
-            <button type="button"><a href="/register">Sign Up </a></button>
+            <button type="button" class="btn-contained-dark"><a href="/register">Sign Up </a></button>
         </div>
     </div>
 </div>

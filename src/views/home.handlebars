@@ -1,16 +1,17 @@
-<div>
-  <div>
-    <h3>Welcome!</h3>
-    <button id="logout" type="button"> Logout</button>
-    <button id="seeCart" type="button">See cart</button>
+<div class="flex-c-s-c container-light">
+  <div class="flex-r-sb-c">
+    <button id="logout" class="btn-contained-dark" type="button"> Logout</button>
+    <button id="seeCart" class="btn-contained-dark" type="button">See cart</button>
   </div>
-  <p>First Name: {{user.first_name}}</p>
-  <p>Last Name: {{user.last_name}}</p>
-  <p>Email/Username: {{user.email}}</p>
-  <p>Age: {{user.age}}</p>
-</div>
+  <h3 class="text">Welcome!</h3>
+  <p class="text">{{user.first_name}} {{user.last_name}}</p>
+  <p class="text">Email/Username: {{user.email}}</p>
+  <p class="text">Age: {{user.age}}</p>
 
-<button type="button"><a href="/products">See products</a></button>
+
+<button type="button" class="btn-contained-dark"><a href="/products">See products</a></button>
+
+</div>
 
 
 <script src="/js/home.js"></script>

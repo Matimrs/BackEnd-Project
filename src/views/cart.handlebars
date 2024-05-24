@@ -1,15 +1,16 @@
-<button type="button"><a href="/">Home</a></button>
-<h1>Products in the Cart:</h1>
+<button type="button" class="btn-contained-light"><a href="/">Home</a></button>
+<h2>Products in the Cart:</h2>
 
 {{#each products}}
-<div>
-  <h2>{{this.product.title}}:</h2>
-  <h4>Quantity: {{this.quantity}}</h4>
+<div class="product bg-light flex-c-sb-c">
+  <h3>{{this.product.title}}:</h3>
+  <p>Quantity: {{this.quantity}}</p>
   <p>Price: ${{this.product.price}}</p>
   <p>Category: {{this.product.category}}</p>
 </div>
 {{/each}}
 
-<button id="btnPurchase" type="button">Purchase</button>
+<button id="btnPurchase" class="btn-contained-light" type="button">Purchase</button>
 
+<link rel="stylesheet" href="/styles/cart.css">
 <script src="/js/cart.js"></script>
