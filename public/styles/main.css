@@ -1,0 +1,70 @@
+* {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: medium;
+}
+button {
+  background-color: rgb(65, 100, 115);
+  box-shadow: 2px 2px 5px black;
+  color: white;
+  a{
+    color: white;
+  }
+}
+
+button,
+input {
+  border: 0px;
+  border-radius: 4px;
+  
+}
+input,
+button {
+  margin: 0.5rem;
+  padding: 0.25rem 1rem;
+}
+p {
+  margin: 0;
+}
+a,
+button {
+  cursor: pointer;
+}
+.container {
+  height: 100vh;
+  background-color: rgb(65, 100, 115);
+}
+.flex-r-c-c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-r-sb-c {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.flex-r-sa-c {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.flex-c-c-c {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.flex-c-sb-c {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.bg-dark{
+    background-color: rgb(65, 100, 115);
+}
+.bg-light{
+    background-color: rgb(185, 220, 235);
+}

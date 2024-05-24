@@ -1,0 +1,29 @@
+label {
+  margin-top: 10px;
+  text-align: left;
+}
+label,
+input {
+  width: 240px;
+}
+form{
+    border-bottom: 1px solid rgb(65, 100, 115);
+    padding-bottom: 0.5rem;
+}
+a{
+    text-decoration: none;
+}
+#down{
+    padding-top: 0.5rem;
+}
+#form {
+  padding: 1.5rem 3rem;
+  border-radius: 4px;
+  box-shadow: 0 0 12px black;
+}
+.text{
+    margin-top: 0.5rem;
+}
+#restoreBtn:hover {
+  text-decoration: underline;
+}

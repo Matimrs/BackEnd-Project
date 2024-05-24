@@ -1,14 +1,24 @@
-<form action="/api/session/login" method="post">
-    <input id="email" placeholder="Email" type="email" name="email">
-    <input id="password" placeholder="Password" type="password" name="password">
-    <button id="restoreBtn" type="button">Restore password</button>
-    <button type="submit">Login</button>
-</form>
 
-<div>
-    <a href="/api/session/github"><button>Log in with GitHub</button></a>
-    <p>You do not have an account?</p>
-    <a href="/register"><button type="button"> Sign Up </button></a>
+
+<div class="flex-c-c-c container">
+    <div id="form" class="flex-c-sb-c bg-light">
+        <form action="/api/session/login" method="post" class="flex-c-sb-c">
+            <label for="email">Email</label>
+            <input id="email" placeholder="Email" type="email" name="email">
+            <label for="password">Password</label>
+            <input id="password" placeholder="Password" type="password" name="password">
+            <a id="restoreBtn" class="text">Restore password</a>
+            <button type="submit" class="btn">Log in</button>
+
+        </form>
+
+        <div id="down" class="flex-c-sb-c">
+            <a href="/api/session/github"><button>Log in with GitHub</button></a>
+            <p class="text">You do not have an account?</p>
+            <button type="button"><a href="/register">Sign Up </a></button>
+        </div>
+    </div>
 </div>
 
+<link rel="stylesheet" href="/styles/login.css">
 <script src="/js/login.js"></script>

@@ -46,7 +46,6 @@ export const postLogin = async (req, res) => {
 
 export const postLogout = async (req, res) => {
   try {
-    console.log(req.user);
     const updatedUser = await findUserByIDAndUpdateService(req.user._id, {last_connection: new Date()});
     res.cookie(COOKIE_TOKEN, "", {
       expires: new Date(0),
