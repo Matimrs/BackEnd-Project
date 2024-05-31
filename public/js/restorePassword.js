@@ -26,7 +26,7 @@ passwordInpt.addEventListener("change", () => {
   localStorage.setItem("password", passwordInpt.value);
 });
 
-const restoreForm = document.getElementById("restoreForm");
+const restoreForm = document.getElementById("form");
 
 restoreForm.addEventListener("submit", async (event) => {
   const password = passwordInpt.value;

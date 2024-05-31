@@ -24,7 +24,7 @@ a{
 #form {
   padding: 1.5rem 3rem;
   border-radius: 4px;
-  box-shadow: 0 0 12px black;
+  box-shadow: 0 0 20px black;
 }
 #restoreBtn:hover {
   text-decoration: underline;

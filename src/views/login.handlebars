@@ -2,11 +2,12 @@
 
 <div class="flex-c-c-c container-dark">
     <div id="form" class="flex-c-sb-c bg-light">
+        <h2>Log in</h2>
         <form action="/api/session/login" method="post" class="flex-c-sb-c">
             <label for="email">Email</label>
-            <input id="email" type="email" name="email">
+            <input id="email" type="email" name="email" required>
             <label for="password">Password</label>
-            <input id="password"  type="password" name="password">
+            <input id="password"  type="password" name="password" required>
             <a id="restoreBtn">Restore password</a>
             <button type="submit" class="btn-contained-dark">Log in</button>
 

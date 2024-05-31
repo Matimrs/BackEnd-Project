@@ -1,17 +1,26 @@
-<div class="flex-c-s-c container-light">
+<div class="flex-c-s-c container-dark">
   <div class="flex-r-sb-c">
-    <button id="logout" class="btn-contained-dark" type="button"> Logout</button>
-    <button id="seeCart" class="btn-contained-dark" type="button">See cart</button>
+    <button id="logout" class="btn-contained-light" type="button"> Logout</button>
+    <button id="seeCart" class="btn-contained-light" type="button">See cart</button>
   </div>
-  <h3 class="text">Welcome!</h3>
-  <p class="text">{{user.first_name}} {{user.last_name}}</p>
-  <p class="text">Email/Username: {{user.email}}</p>
-  <p class="text">Age: {{user.age}}</p>
+  <div class="flex-c-sb-c bg-light card">
+    <h3 class="text">Welcome!</h3>
+    <p class="text">{{user.first_name}} {{user.last_name}}</p>
+    <div class="flex-c-c-c">
+      <p class="text">Email/Username:</p>
+      <p class="text">{{user.email}}</p>
+    </div>
+    <div class="flex-c-c-c">
+      <p class="text">Age: </p>
+      <p class="text">{{user.age}}</p>
+    </div>
+
+  </div>
 
 
-<button type="button" class="btn-contained-dark"><a href="/products">See products</a></button>
+  <button type="button" class="btn-contained-light"><a href="/products">See products</a></button>
 
 </div>
 
-
+<link rel="stylesheet" href="/styles/home.css">
 <script src="/js/home.js"></script>
