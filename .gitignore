@@ -1,3 +1,6 @@
 /node_modules
 /archivosPruebas
 /BackEnd-Project
+/.env
+/.development.env
+/.production.env
